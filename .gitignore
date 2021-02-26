@@ -1,0 +1,32 @@
+/target/
+/backend/target/
+/backend/*.iml
+backend/src/main/resources/public/
+
+/frontend/target/
+/frontend/node/
+/frontend/node_modules/
+/frontend/*.iml
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/

@@ -1,0 +1,12 @@
+server:
+  port: 3009
+spring:
+  data:
+    mongodb:
+      database: lor-latest-videos
+
+lor:
+  you-tube:
+    local-server:
+      host: localhost
+      port: 8095
