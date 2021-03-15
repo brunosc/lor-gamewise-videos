@@ -1,7 +1,9 @@
 # Runeterra Latest Videos
 
 It's a web application developed using **Vue.js**, **Spring Boot** and **MongoDB** as database.
-Its goal is to show the latest videos of Legends of Runeterra from YouTube channels to help players to find gameplays related to a deck that they are planning to play. 
+Its goal is to show the latest videos of Legends of Runeterra from YouTube channels to help players to find gameplays related to a deck that they are planning to play.
+
+https://lor.gamewise.info/
 
 ## Running locally
 
