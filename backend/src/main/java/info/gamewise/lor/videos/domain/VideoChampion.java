@@ -1,14 +1,16 @@
 package info.gamewise.lor.videos.domain;
 
+import com.github.brunosc.lor.domain.LoRChampion;
+
 public final class VideoChampion {
     private final String code;
     private final String name;
     private final String urlImgName;
 
-    public VideoChampion(String code, String name) {
-        this.code = code;
-        this.name = name;
-        this.urlImgName = name.replace(" ", "");
+    public VideoChampion(LoRChampion champion) {
+        this.code = champion.getId();
+        this.name = champion.prettyName();
+        this.urlImgName = buildUrlImgName(champion);
     }
 
     public String getCode() {
@@ -30,5 +32,14 @@ public final class VideoChampion {
                 ", name='" + name + '\'' +
                 ", urlImgName='" + urlImgName + '\'' +
                 '}';
+    }
+
+    private String buildUrlImgName(LoRChampion champion) {
+        if (LoRChampion.JARVAN_IV.equals(champion)) {
+            return "JarvanIV";
+        }
+        return champion
+                .prettyName()
+                .replace(" ", "");
     }
 }

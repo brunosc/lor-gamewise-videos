@@ -25,7 +25,7 @@ class GetFiltersService implements GetFiltersUseCase {
     private List<VideoChampion> allChampions() {
         return EnumSet.allOf(LoRChampion.class)
                 .stream()
-                .map(this::mapChampion)
+                .map(VideoChampion::new)
                 .sorted(Comparator.comparing(VideoChampion::getName))
                 .collect(toUnmodifiableList());
     }
@@ -35,10 +35,6 @@ class GetFiltersService implements GetFiltersUseCase {
                 .stream()
                 .map(this::mapRegion)
                 .collect(toUnmodifiableList());
-    }
-
-    private VideoChampion mapChampion(LoRChampion champion) {
-        return new VideoChampion(champion.getId(), champion.prettyName());
     }
 
     private VideoRegion mapRegion(LoRRegion region) {

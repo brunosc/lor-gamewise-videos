@@ -46,12 +46,8 @@ class VideoMapper {
     private Set<VideoChampion> mapChampions(Set<LoRChampion> champions) {
         return champions
                 .stream()
-                .map(this::mapChampion)
+                .map(VideoChampion::new)
                 .collect(toUnmodifiableSet());
-    }
-
-    private VideoChampion mapChampion(LoRChampion champion) {
-        return new VideoChampion(champion.getId(), champion.prettyName());
     }
 
     private Set<VideoRegion> domainRegions(Set<LoRRegion> regions) {
