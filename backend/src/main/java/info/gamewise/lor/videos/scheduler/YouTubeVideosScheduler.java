@@ -4,15 +4,15 @@ import info.gamewise.lor.videos.usecase.SaveVideoUseCase;
 import info.gamewise.lor.videos.usecase.VideosNotInDatabaseUseCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-@Profile("prd")
 @Component
+@ConditionalOnProperty(value = "lor.you-tube.scheduler.enabled", havingValue = "true")
 class YouTubeVideosScheduler {
 
-    private static final int HOUR = 4;
+    private static final int HOUR = 2;
     private static final int IMPORT_RATE = HOUR * 60 * 60 * 1000;
     private static final Logger LOG = LoggerFactory.getLogger(YouTubeVideosScheduler.class);
 

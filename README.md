@@ -48,13 +48,9 @@ npm install
 npm run serve
 ```
 
-## Build and Run as Docker container
+## Scheduler
 
-```
-docker build . -t <image-name>
-
-docker run -d -p 3009:3009 --name lor-videos <image-name>
-```
+There is a scheduler running every 2 hour. It is disabled by default, if you want to try it you have to set `lor.you-tube.scheduler.enabled=true` 
 
 ## Contribution
 

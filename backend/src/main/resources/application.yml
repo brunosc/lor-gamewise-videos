@@ -10,3 +10,5 @@ lor:
     local-server:
       host: localhost
       port: 8095
+    scheduler:
+      enabled: false
