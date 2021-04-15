@@ -53,18 +53,14 @@ class VideoMapper {
     private Set<VideoRegion> domainRegions(Set<LoRRegion> regions) {
         Set<VideoRegion> domainRegions = regions
                 .stream()
-                .map(this::mapRegion)
+                .map(VideoRegion::new)
                 .collect(toUnmodifiableSet());
 
         return new TreeSet<>(domainRegions);
     }
 
-    private VideoRegion mapRegion(LoRRegion region) {
-        return new VideoRegion(region.getCode(), region.prettyName());
-    }
-
     private VideoChannel mapChannel(Channel channel) {
-        return new VideoChannel(channel.getName());
+        return new VideoChannel(channel);
     }
 
 }

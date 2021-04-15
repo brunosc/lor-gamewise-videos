@@ -1,12 +1,14 @@
 package info.gamewise.lor.videos.domain;
 
+import com.github.brunosc.lor.domain.LoRRegion;
+
 public final class VideoRegion implements Comparable<VideoRegion> {
     private final String code;
     private final String description;
 
-    public VideoRegion(String code, String description) {
-        this.code = code;
-        this.description = description;
+    public VideoRegion(LoRRegion region) {
+        this.code = region.getCode();
+        this.description = region.prettyName();
     }
 
     public String getCode() {

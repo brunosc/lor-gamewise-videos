@@ -7,6 +7,7 @@ export default {
     filter: {},
     selectedFilter: {
       regions: [],
+      channels: [],
       champions: [],
     }
   },
@@ -30,6 +31,10 @@ export default {
     setSelectedChampions(state, champions) {
       state.selectedFilter.champions = champions;
     },
+
+    setSelectedChannels(state, channels) {
+      state.selectedFilter.channels = channels;
+    },
   },
 
   actions: {
@@ -48,6 +53,10 @@ export default {
 
     updateSelectedChampions({ commit }, champions) {
       commit('setSelectedChampions', champions);
+    },
+
+    updateSelectedChannels({ commit }, channels) {
+      commit('setSelectedChannels', channels);
     }
   },
 

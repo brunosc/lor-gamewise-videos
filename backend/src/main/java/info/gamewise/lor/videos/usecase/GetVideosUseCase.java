@@ -1,5 +1,6 @@
 package info.gamewise.lor.videos.usecase;
 
+import info.gamewise.lor.videos.domain.Channel;
 import info.gamewise.lor.videos.domain.LoRVideo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,10 +14,12 @@ public interface GetVideosUseCase {
     class SearchParams {
         private final List<String> regions;
         private final List<String> champions;
+        private final List<Channel> channels;
 
-        public SearchParams(List<String> regions, List<String> champions) {
+        public SearchParams(List<String> regions, List<String> champions, List<Channel> channels) {
             this.regions = regions;
             this.champions = champions;
+            this.channels = channels;
         }
 
         public List<String> getChampions() {
@@ -25,6 +28,10 @@ public interface GetVideosUseCase {
 
         public List<String> getRegions() {
             return regions;
+        }
+
+        public List<Channel> getChannels() {
+            return channels;
         }
     }
 }

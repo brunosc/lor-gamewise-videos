@@ -36,6 +36,10 @@ class VideoPredicate {
             }
         }
 
+        if (!isEmpty(params.getChannels())) {
+            predicate.and( q.channel.in(params.getChannels()) );
+        }
+
         return predicate;
     }
 

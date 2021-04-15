@@ -6,6 +6,7 @@
       <div class="container">
         <region-group-filter/>
         <champion-group-filter/>
+        <channel-group-filter/>
       </div>
     </div>
   </div>
@@ -15,12 +16,14 @@
 import { mapActions } from 'vuex';
 import RegionGroupFilter from './region/RegionGroupFilter';
 import ChampionGroupFilter from './champion/ChampionGroupFilter';
+import ChannelGroupFilter from './channel/ChannelGroupFilter';
 
 export default {
   name: 'FilterPanel',
   components: {
     RegionGroupFilter,
     ChampionGroupFilter,
+    ChannelGroupFilter,
   },
 
   created() {

@@ -2,8 +2,10 @@ package info.gamewise.lor.videos.service;
 
 import com.github.brunosc.lor.domain.LoRChampion;
 import com.github.brunosc.lor.domain.LoRRegion;
+import info.gamewise.lor.videos.domain.Channel;
 import info.gamewise.lor.videos.domain.LoRVideoFilter;
 import info.gamewise.lor.videos.domain.VideoChampion;
+import info.gamewise.lor.videos.domain.VideoChannel;
 import info.gamewise.lor.videos.domain.VideoRegion;
 import info.gamewise.lor.videos.usecase.GetFiltersUseCase;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,7 @@ class GetFiltersService implements GetFiltersUseCase {
 
     @Override
     public LoRVideoFilter getFilters() {
-        return new LoRVideoFilter(allChampions(), allRegions());
+        return new LoRVideoFilter(allRegions(), allChannels(), allChampions());
     }
 
     private List<VideoChampion> allChampions() {
@@ -33,12 +35,15 @@ class GetFiltersService implements GetFiltersUseCase {
     private List<VideoRegion> allRegions() {
         return EnumSet.allOf(LoRRegion.class)
                 .stream()
-                .map(this::mapRegion)
+                .map(VideoRegion::new)
                 .collect(toUnmodifiableList());
     }
 
-    private VideoRegion mapRegion(LoRRegion region) {
-        return new VideoRegion(region.getCode(), region.prettyName());
+    private List<VideoChannel> allChannels() {
+        return EnumSet.allOf(Channel.class)
+                .stream()
+                .map(VideoChannel::new)
+                .collect(toUnmodifiableList());
     }
 
 }

@@ -20,12 +20,6 @@ public class DescriptionWithRegisteredDeckExtractor extends AbstractDeckCodeExtr
     private static final String URL_DECKS = URL_MOBA + "decks";
     private static final String URL_DECK_BY_ID = URL_MOBA + "api/v2/decks/library/by-id/";
 
-    public static void main(String[] args) {
-        DeckCodeExtractor extractor = new DescriptionWithRegisteredDeckExtractor();
-        Optional<String> code = extractor.extract("https://lor.mobalytics.gg/decks/c18gl41509nhf1e6st80");
-        code.ifPresentOrElse(System.out::println, () -> System.out.println("no deck code!"));
-    }
-
     @Override
     public Optional<String> extract(String videoDescription) {
         return descriptionAsStream(videoDescription)
