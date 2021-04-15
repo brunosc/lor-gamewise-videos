@@ -63,14 +63,14 @@ class VideosNotInDatabaseUseCaseServiceTest {
     private void givenVideos_ValidDeckCode() {
         String deckCode = "CICACAQDAMBQCBJHGU4AGAYFAMCAMBABAMBA6KBXAMAQCAZFAEBAGBABAMCQEAIBAEBS4";
         List<VideoDetails> latestVideos = List.of(createVideoDetails("123", deckCode), createVideoDetails("456", deckCode), createVideoDetails("789", deckCode));
-        given(latestVideosUseCase.latestVideosByChannel(eq(Channel.HOOGLAND_HIGHLIGHTS)))
+        given(latestVideosUseCase.latestVideosByChannel(eq(Channel.MEGA_MOGWAI)))
                 .willReturn(latestVideos);
     }
 
     private void givenVideos_InvalidDeckCode() {
         String deckCode = "CICACAQDAMBQCBJHGU4AGAYFAMCAMBABAMBA6KBXAMAQCAZFAEBAGBABAMCQEAIBAEBS4";
         List<VideoDetails> latestVideos = List.of(createVideoDetails("123", "invalid-deck-code"), createVideoDetails("456", deckCode), createVideoDetails("789", deckCode));
-        given(latestVideosUseCase.latestVideosByChannel(eq(Channel.HOOGLAND_HIGHLIGHTS)))
+        given(latestVideosUseCase.latestVideosByChannel(eq(Channel.MEGA_MOGWAI)))
                 .willReturn(latestVideos);
     }
 
