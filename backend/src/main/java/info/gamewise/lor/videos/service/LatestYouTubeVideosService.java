@@ -20,7 +20,8 @@ import static java.util.Collections.emptyList;
 @Service
 class LatestYouTubeVideosService implements LatestYouTubeVideosUseCase {
 
-    private static final Long VIDEOS_BY_CHANNEL = 5L;
+    private static final Long VIDEOS_BY_CHANNEL = 2L;
+    private static final String CLIENT_SECRETS = "/client_secret.json";
     private static final Logger LOG = LoggerFactory.getLogger(LatestYouTubeVideosService.class);
 
     private final YouTubeFetcher youTubeFetcher;
@@ -30,8 +31,7 @@ class LatestYouTubeVideosService implements LatestYouTubeVideosUseCase {
     }
 
     private YouTubeFetcher buildYouTubeFetcher(LocalServerProperties localServerProperties) throws GeneralSecurityException, IOException {
-        LOG.info("Building YouTubeFetcher with {} parameters", localServerProperties);
-        InputStream credentials = LatestYouTubeVideosService.class.getResourceAsStream("/client_secret.json");
+        InputStream credentials = LatestYouTubeVideosService.class.getResourceAsStream(CLIENT_SECRETS);
         YouTubeFetcherParams params = new YouTubeFetcherParams.Builder(credentials)
                 .withHost(localServerProperties.getHost())
                 .withPort(localServerProperties.getPort())

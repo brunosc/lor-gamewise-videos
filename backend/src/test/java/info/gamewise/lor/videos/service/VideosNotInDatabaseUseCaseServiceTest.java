@@ -37,7 +37,7 @@ class VideosNotInDatabaseUseCaseServiceTest {
         givenVideos_ValidDeckCode();
         givenVideoIsInDatabase();
 
-        List<NewVideo> videos = service.fetch();
+        List<NewVideo> videos = service.fetchNewVideos();
 
         NewVideo v123 = videos.stream().filter(v -> v.getDetails().getId().equals("123")).findFirst().orElse(null);
         NewVideo v789 = videos.stream().filter(v -> v.getDetails().getId().equals("789")).findFirst().orElse(null);
@@ -51,7 +51,7 @@ class VideosNotInDatabaseUseCaseServiceTest {
         givenVideos_InvalidDeckCode();
         givenVideoIsInDatabase();
 
-        List<NewVideo> videos = service.fetch();
+        List<NewVideo> videos = service.fetchNewVideos();
 
         NewVideo v123 = videos.stream().filter(v -> v.getDetails().getId().equals("123")).findFirst().orElse(null);
         NewVideo v789 = videos.stream().filter(v -> v.getDetails().getId().equals("789")).findFirst().orElse(null);

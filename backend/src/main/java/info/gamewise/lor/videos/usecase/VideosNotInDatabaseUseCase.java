@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface VideosNotInDatabaseUseCase {
-
-    List<NewVideo> fetch();
+    List<NewVideo> fetchNewVideos();
 
     class NewVideo {
         private final String deckCode;

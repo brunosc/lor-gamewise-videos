@@ -40,7 +40,7 @@ class VideosNotInDatabaseUseCaseService implements VideosNotInDatabaseUseCase {
     }
 
     @Override
-    public List<NewVideo> fetch() {
+    public List<NewVideo> fetchNewVideos() {
         return latestVideos()
                 .stream()
                 .filter(this::isNotInDatabase)
@@ -84,7 +84,7 @@ class VideosNotInDatabaseUseCaseService implements VideosNotInDatabaseUseCase {
 
             return new NewVideo(deckCode.get(), details, channel, regions, champions);
         } catch (Exception e) {
-            LOG.error("There was an error to map the deck", e);
+            LOG.error("There was an error to map the deck: {}", e.getMessage());
             return null;
         }
     }
