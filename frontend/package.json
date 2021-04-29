@@ -17,6 +17,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^5.0.0-beta1",
     "core-js": "^3.8.2",
+    "moment": "^2.29.1",
     "popper.js": "^1.16.1",
     "vue": "^2.6.12",
     "vue-select": "^3.11.2",

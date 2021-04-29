@@ -6,18 +6,17 @@
       </a>
       <div class="card-body">
         <h5 class="card-title">{{ video.title }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{{ video.channel.name }}</h6>
-
+        <video-card-subtitle :channel-name="video.channel.name" :published-at="video.publishedAt"/>
         <regions-champions-container :regions="video.regions" :champions="video.champions"/>
         <video-card-buttons :deck-code="video.deckCode"/>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
   import VideoCardButtons from '@/components/video/VideoCardButtons';
+  import VideoCardSubtitle from '@/components/video/VideoCardSubtitle';
   import RegionsChampionsContainer from '@/components/video/RegionsChampionsContainer';
 
   export default {
@@ -25,6 +24,7 @@
 
     components: {
       VideoCardButtons,
+      VideoCardSubtitle,
       RegionsChampionsContainer,
     },
 
@@ -34,8 +34,6 @@
         required: true,
       }
     },
-
-
   }
 </script>
 
