@@ -20,7 +20,8 @@ public enum Channel {
     ALANZQ("Alanzq", "UUJOh07P-0inhO-RETLY0tuQ", singletonList(new DescriptionWithDeckLinkExtractor())),
     BRUISED_BY_GOD("BruisedByGod", "UUMnBDEOjxCOhrFWz13RPSYg", singletonList(new DescriptionWithDeckCodeExtractor())),
     GRAPP_LR("GrappLr", "UUq5ZYJax8VC580PAIU5xuvg", of(new DescriptionWithDeckCodeExtractor(), new DescriptionWithDeckLinkExtractor())),
-    SAUCY("Saucy Mailman", "UUlAM1lW_FFVJRaxYXCIGhhQ", singletonList(new DescriptionWithRegisteredDeckExtractor()));
+    SAUCY("Saucy Mailman", "UUlAM1lW_FFVJRaxYXCIGhhQ", singletonList(new DescriptionWithRegisteredDeckExtractor())),
+    NIC_MAKES_PLAYS("NicMakesPlays", "UU_mQ6OSK-frzbXNpFbwZJgg", singletonList(new DescriptionWithDeckCodeExtractor()));
 
     private final String name;
     private final String playlistId;
