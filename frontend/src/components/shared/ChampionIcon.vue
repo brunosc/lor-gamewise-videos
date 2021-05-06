@@ -2,6 +2,7 @@
   <img class="rounded-circle mx-1"
        :src="championImgUrl()"
        width="24" height="24"
+       :title="urlImgName"
        :alt="urlImgName">
 </template>
 
