@@ -5,7 +5,6 @@ import info.gamewise.lor.videos.deckcodeextractor.DescriptionWithDeckCodeExtract
 import info.gamewise.lor.videos.deckcodeextractor.DescriptionWithDeckLinkExtractor;
 import info.gamewise.lor.videos.deckcodeextractor.DescriptionWithRegisteredDeckExtractor;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,12 +15,14 @@ public enum Channel {
 
     MEGA_MOGWAI("MegaMogwai", "UUvUZXLShMx-FZvoadtb8xBQ", singletonList(new DescriptionWithDeckCodeExtractor())),
     SILVERFUSE("Silverfuse", "UUzxv-mX_xsiCzuwTrJWP5ww", singletonList(new DescriptionWithDeckCodeExtractor())),
-    HAWK_TIE("HawkTie", "UU8ngSK9Reia_LYtEYXMZejg", singletonList(new DescriptionWithDeckCodeExtractor())),
     ALANZQ("Alanzq", "UUJOh07P-0inhO-RETLY0tuQ", singletonList(new DescriptionWithDeckLinkExtractor())),
     BRUISED_BY_GOD("BruisedByGod", "UUMnBDEOjxCOhrFWz13RPSYg", singletonList(new DescriptionWithDeckCodeExtractor())),
     GRAPP_LR("GrappLr", "UUq5ZYJax8VC580PAIU5xuvg", of(new DescriptionWithDeckCodeExtractor(), new DescriptionWithDeckLinkExtractor())),
     SAUCY("Saucy Mailman", "UUlAM1lW_FFVJRaxYXCIGhhQ", singletonList(new DescriptionWithRegisteredDeckExtractor())),
-    NIC_MAKES_PLAYS("NicMakesPlays", "UU_mQ6OSK-frzbXNpFbwZJgg", singletonList(new DescriptionWithDeckCodeExtractor()));
+    NIC_MAKES_PLAYS("NicMakesPlays", "UU_mQ6OSK-frzbXNpFbwZJgg", singletonList(new DescriptionWithDeckCodeExtractor())),
+    LUCKY_CAD("LuckyCAD", "UUa4tK4ry575cuJzayeaxmSQ", singletonList(new DescriptionWithDeckCodeExtractor())),
+    LAN_UP("LAN UP", "UU54qt3GdtHThgAsPd_JZ0WQ", singletonList(new DescriptionWithDeckCodeExtractor())),
+    HAPPY_DURIAN("Happy Durian", "UUphWqOWOslUD40sM26o8t4g", singletonList(new DescriptionWithRegisteredDeckExtractor()));
 
     private final String name;
     private final String playlistId;
