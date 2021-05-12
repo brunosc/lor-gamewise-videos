@@ -1,5 +1,5 @@
 <template>
-  <div class="row row-cols-1 row-cols-md-3">
+  <div class="row row-cols-1 row-cols-md-4">
     <video-card v-for="video in videos" :key="video.url" :video="video"/>
   </div>
 </template>

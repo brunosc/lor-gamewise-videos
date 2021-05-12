@@ -13,25 +13,31 @@ import static java.util.List.of;
 
 public enum Channel {
 
-    MEGA_MOGWAI("MegaMogwai", "UUvUZXLShMx-FZvoadtb8xBQ", singletonList(new DescriptionWithDeckCodeExtractor())),
-    SILVERFUSE("Silverfuse", "UUzxv-mX_xsiCzuwTrJWP5ww", singletonList(new DescriptionWithDeckCodeExtractor())),
-    ALANZQ("Alanzq", "UUJOh07P-0inhO-RETLY0tuQ", singletonList(new DescriptionWithDeckLinkExtractor())),
-    BRUISED_BY_GOD("BruisedByGod", "UUMnBDEOjxCOhrFWz13RPSYg", singletonList(new DescriptionWithDeckCodeExtractor())),
-    GRAPP_LR("GrappLr", "UUq5ZYJax8VC580PAIU5xuvg", of(new DescriptionWithDeckCodeExtractor(), new DescriptionWithDeckLinkExtractor())),
-    SAUCY("Saucy Mailman", "UUlAM1lW_FFVJRaxYXCIGhhQ", singletonList(new DescriptionWithRegisteredDeckExtractor())),
-    NIC_MAKES_PLAYS("NicMakesPlays", "UU_mQ6OSK-frzbXNpFbwZJgg", singletonList(new DescriptionWithDeckCodeExtractor())),
-    LUCKY_CAD("LuckyCAD", "UUa4tK4ry575cuJzayeaxmSQ", singletonList(new DescriptionWithDeckCodeExtractor())),
-    LAN_UP("LAN UP", "UU54qt3GdtHThgAsPd_JZ0WQ", singletonList(new DescriptionWithDeckCodeExtractor())),
-    HAPPY_DURIAN("Happy Durian", "UUphWqOWOslUD40sM26o8t4g", singletonList(new DescriptionWithRegisteredDeckExtractor()));
+    MEGA_MOGWAI("MegaMogwai", "UUvUZXLShMx-FZvoadtb8xBQ"),
+    SILVERFUSE("Silverfuse", "UUzxv-mX_xsiCzuwTrJWP5ww"),
+    ALANZQ("Alanzq", "UUJOh07P-0inhO-RETLY0tuQ"),
+    BRUISED_BY_GOD("BruisedByGod", "UUMnBDEOjxCOhrFWz13RPSYg"),
+    GRAPP_LR("GrappLr", "UUq5ZYJax8VC580PAIU5xuvg"),
+    SAUCY("Saucy Mailman", "UUlAM1lW_FFVJRaxYXCIGhhQ"),
+    NIC_MAKES_PLAYS("NicMakesPlays", "UU_mQ6OSK-frzbXNpFbwZJgg"),
+    LUCKY_CAD("LuckyCAD", "UUa4tK4ry575cuJzayeaxmSQ"),
+    LAN_UP("LAN UP", "UU54qt3GdtHThgAsPd_JZ0WQ"),
+    HAPPY_DURIAN("Happy Durian", "UUphWqOWOslUD40sM26o8t4g"),
+    SNNUY("Snnuy", "UUrMr5Wc0Cn5AGINmUEquzdA"),
+    SQUIRRELS("Squirrels", "UUb42Ogf65ddvkCuPFIw57UQ"),
+    GRIMSET("Grimset", "UUh-rIrNS9D0_MDKx-dM2YTA"),
+    HOBBITSIZZ("hobbitsizz", "UUk_QEZixG7d5yblvsNjYomg"),
+    ELITE4IN1("Elite4in1", "UUSLgEtVzKSnav4XcxOjcT7g");
 
     private final String name;
     private final String playlistId;
-    private final List<DeckCodeExtractor> deckCodeExtractors;
 
-    Channel(String name, String playlistId, List<DeckCodeExtractor> deckCodeExtractors) {
+    private static final List<DeckCodeExtractor> EXTRACTORS =
+            of(new DescriptionWithDeckCodeExtractor(), new DescriptionWithDeckLinkExtractor(), new DescriptionWithRegisteredDeckExtractor());
+
+    Channel(String name, String playlistId) {
         this.name = name;
         this.playlistId = playlistId;
-        this.deckCodeExtractors = deckCodeExtractors;
     }
 
     public String getPlaylistId() {
@@ -43,7 +49,7 @@ public enum Channel {
     }
 
     public Optional<String> extractDeckCode(String videoDescription) {
-        for (DeckCodeExtractor extractor : deckCodeExtractors) {
+        for (DeckCodeExtractor extractor : EXTRACTORS) {
             Optional<String> deckCode = extractor.extract(videoDescription);
             if (deckCode.isPresent()) {
                 return deckCode.map(this::sanitizeDeckCode);

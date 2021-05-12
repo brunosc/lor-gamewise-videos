@@ -20,7 +20,7 @@ import static java.util.Collections.emptyList;
 @Service
 class LatestYouTubeVideosService implements LatestYouTubeVideosUseCase {
 
-    private static final Long VIDEOS_BY_CHANNEL = 2L;
+    private static final Long VIDEOS_BY_CHANNEL = 3L;
     private static final String CLIENT_SECRETS = "/client_secret.json";
     private static final Logger LOG = LoggerFactory.getLogger(LatestYouTubeVideosService.class);
 
