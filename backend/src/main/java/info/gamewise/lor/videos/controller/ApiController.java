@@ -1,7 +1,9 @@
 package info.gamewise.lor.videos.controller;
 
+import info.gamewise.lor.videos.domain.AppSettings;
 import info.gamewise.lor.videos.domain.LoRVideo;
 import info.gamewise.lor.videos.domain.LoRVideoFilter;
+import info.gamewise.lor.videos.usecase.GetAppSettingsUseCase;
 import info.gamewise.lor.videos.usecase.GetFiltersUseCase;
 import info.gamewise.lor.videos.usecase.GetVideosUseCase;
 import info.gamewise.lor.videos.usecase.GetVideosUseCase.SearchParams;
@@ -18,10 +20,12 @@ class ApiController {
 
     private final GetVideosUseCase videosUseCase;
     private final GetFiltersUseCase filtersUseCase;
+    private final GetAppSettingsUseCase appSettingsUseCase;
 
-    ApiController(GetVideosUseCase videosUseCase, GetFiltersUseCase filtersUseCase) {
+    ApiController(GetVideosUseCase videosUseCase, GetFiltersUseCase filtersUseCase, GetAppSettingsUseCase appSettingsUseCase) {
         this.videosUseCase = videosUseCase;
         this.filtersUseCase = filtersUseCase;
+        this.appSettingsUseCase = appSettingsUseCase;
     }
 
     @GetMapping("filters")
@@ -32,5 +36,10 @@ class ApiController {
     @GetMapping("videos")
     ResponseEntity<Page<LoRVideo>> getVideos(SearchParams params, Pageable pageable) {
         return ResponseEntity.ok(videosUseCase.fetchByFilter(params, pageable));
+    }
+
+    @GetMapping("settings")
+    ResponseEntity<AppSettings> getAppSettings() {
+        return ResponseEntity.ok(appSettingsUseCase.getAppSettings());
     }
 }
