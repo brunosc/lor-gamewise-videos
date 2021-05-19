@@ -7,6 +7,7 @@
         <region-group-filter/>
         <champion-group-filter/>
         <channel-group-filter/>
+        <save-filter-switch/>
       </div>
     </div>
   </div>
@@ -14,16 +15,19 @@
 
 <script>
 import { mapActions } from 'vuex';
+import SaveFilterSwitch from './SaveFilterSwitch';
 import RegionGroupFilter from './region/RegionGroupFilter';
-import ChampionGroupFilter from './champion/ChampionGroupFilter';
 import ChannelGroupFilter from './channel/ChannelGroupFilter';
+import ChampionGroupFilter from './champion/ChampionGroupFilter';
 
 export default {
   name: 'FilterPanel',
+
   components: {
     RegionGroupFilter,
     ChampionGroupFilter,
     ChannelGroupFilter,
+    SaveFilterSwitch,
   },
 
   created() {

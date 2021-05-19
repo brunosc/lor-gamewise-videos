@@ -1,6 +1,6 @@
 <template>
   <v-select multiple
-            v-model="selectedValue"
+            v-model="selectedChampions"
             :options="champions"
             label="name"
             class="style-chooser"
@@ -31,12 +31,6 @@ export default {
     ChampionIcon,
   },
 
-  data() {
-    return {
-      selectedValue: [],
-    }
-  },
-
   methods: {
     ...mapActions({
       updateSelectedChampions: 'filter/updateSelectedChampions',
@@ -44,18 +38,28 @@ export default {
     }),
 
     onSelectChange() {
-      this.updateSelectedChampions(this.selectedValue);
       this.fetchVideos();
     }
   },
 
   computed: {
     ...mapGetters({
-      filter: 'filter/filter'
+      filter: 'filter/filter',
+      selectedFilter: 'filter/selectedFilter',
     }),
 
     champions() {
       return this.filter.champions ? this.filter.champions : [];
+    },
+
+    selectedChampions: {
+      get() {
+        return this.selectedFilter.champions;
+      },
+
+      set(newValue) {
+        this.updateSelectedChampions(newValue);
+      }
     }
   },
 }

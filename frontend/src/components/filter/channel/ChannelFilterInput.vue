@@ -1,6 +1,6 @@
 <template>
   <v-select multiple
-            v-model="selectedValue"
+            v-model="selectedChannels"
             :options="channels"
             label="name"
             class="style-chooser"
@@ -27,12 +27,6 @@ export default {
     vSelect
   },
 
-  data() {
-    return {
-      selectedValue: [],
-    }
-  },
-
   methods: {
     ...mapActions({
       updateSelectedChannels: 'filter/updateSelectedChannels',
@@ -40,18 +34,28 @@ export default {
     }),
 
     onSelectChange() {
-      this.updateSelectedChannels(this.selectedValue);
       this.fetchVideos();
     }
   },
 
   computed: {
     ...mapGetters({
-      filter: 'filter/filter'
+      filter: 'filter/filter',
+      selectedFilter: 'filter/selectedFilter',
     }),
 
     channels() {
       return this.filter.channels ? this.filter.channels : [];
+    },
+
+    selectedChannels: {
+      get() {
+        return this.selectedFilter.channels;
+      },
+
+      set(newValue) {
+        this.updateSelectedChannels(newValue);
+      }
     }
   }
 }
