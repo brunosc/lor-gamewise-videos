@@ -25,8 +25,4 @@ export default class VideoService {
     return axios.get(`/api/filters`);
   }
 
-  static getAppSettings() {
-    return axios.get(`/api/settings`);
-  }
-
 }

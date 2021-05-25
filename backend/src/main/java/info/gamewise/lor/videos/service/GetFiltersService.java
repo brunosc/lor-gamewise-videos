@@ -7,7 +7,7 @@ import info.gamewise.lor.videos.domain.LoRVideoFilter;
 import info.gamewise.lor.videos.domain.VideoChampion;
 import info.gamewise.lor.videos.domain.VideoChannel;
 import info.gamewise.lor.videos.domain.VideoRegion;
-import info.gamewise.lor.videos.usecase.GetFiltersUseCase;
+import info.gamewise.lor.videos.port.in.GetFiltersUseCase;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;

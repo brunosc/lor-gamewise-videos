@@ -1,13 +1,12 @@
 package info.gamewise.lor.videos.scheduler;
 
-import info.gamewise.lor.videos.usecase.SaveVideoUseCase;
-import info.gamewise.lor.videos.usecase.VideosNotInDatabaseUseCase;
+import info.gamewise.lor.videos.port.out.SaveVideoUseCase;
+import info.gamewise.lor.videos.port.out.VideosNotInDatabaseUseCase;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.concurrent.atomic.AtomicReference;
 

@@ -24,13 +24,13 @@ class VideoMapper {
     Page<LoRVideo> toDomainPage(Page<VideoJpaEntity> page, Pageable pageable) {
         final var videos = page.getContent()
                 .stream()
-                .map(this::mapVideo)
+                .map(this::toDomain)
                 .collect(toUnmodifiableList());
 
         return new PageImpl<>(videos, pageable, page.getTotalElements());
     }
 
-    private LoRVideo mapVideo(VideoJpaEntity entity) {
+    LoRVideo toDomain(VideoJpaEntity entity) {
         return new LoRVideo(
                 entity.getUrl(),
                 entity.getTitle(),

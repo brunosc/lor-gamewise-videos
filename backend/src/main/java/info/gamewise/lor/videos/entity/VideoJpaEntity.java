@@ -4,7 +4,7 @@ import com.github.brunosc.fetcher.domain.VideoThumbnails;
 import com.github.brunosc.lor.domain.LoRChampion;
 import com.github.brunosc.lor.domain.LoRRegion;
 import info.gamewise.lor.videos.domain.Channel;
-import info.gamewise.lor.videos.usecase.VideosNotInDatabaseUseCase.NewVideo;
+import info.gamewise.lor.videos.port.out.VideosNotInDatabaseUseCase.NewVideo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;

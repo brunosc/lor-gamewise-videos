@@ -7,9 +7,9 @@ import com.google.api.services.youtube.model.PlaylistItemSnippet;
 import com.google.api.services.youtube.model.ResourceId;
 import com.google.api.services.youtube.model.ThumbnailDetails;
 import info.gamewise.lor.videos.domain.Channel;
-import info.gamewise.lor.videos.usecase.LatestYouTubeVideosUseCase;
-import info.gamewise.lor.videos.usecase.VideoIsInDatabaseUseCase;
-import info.gamewise.lor.videos.usecase.VideosNotInDatabaseUseCase.NewVideo;
+import info.gamewise.lor.videos.port.out.LatestYouTubeVideosUseCase;
+import info.gamewise.lor.videos.port.out.VideoIsInDatabaseUseCase;
+import info.gamewise.lor.videos.port.out.VideosNotInDatabaseUseCase.NewVideo;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

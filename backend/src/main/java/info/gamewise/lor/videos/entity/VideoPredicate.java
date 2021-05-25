@@ -4,7 +4,7 @@ import com.github.brunosc.lor.domain.LoRChampion;
 import com.github.brunosc.lor.domain.LoRRegion;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
-import info.gamewise.lor.videos.usecase.GetVideosUseCase.SearchParams;
+import info.gamewise.lor.videos.port.in.GetVideosUseCase.SearchParams;
 import org.springframework.data.domain.Sort;
 
 import static java.util.Collections.singletonList;

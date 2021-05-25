@@ -1,4 +1,4 @@
-package info.gamewise.lor.videos.usecase;
+package info.gamewise.lor.videos.port.in;
 
 import info.gamewise.lor.videos.domain.LoRVideoFilter;
 

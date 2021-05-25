@@ -21,7 +21,7 @@ class BackendArchitectureTest {
     private static final String DECK_CODE_EXTRACTOR = PREFIX + ".deckcodeextractor";
     private static final String ENTITY = PREFIX + ".entity";
     private static final String SERVICE = PREFIX + ".service";
-    private static final String USE_CASE = PREFIX + ".usecase";
+    private static final String USE_CASE = PREFIX + ".port.in";
 
     @Test
     void entityShouldBePrivatePackage() {

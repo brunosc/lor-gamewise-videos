@@ -1,4 +1,4 @@
-package info.gamewise.lor.videos.usecase;
+package info.gamewise.lor.videos.port.out;
 
 import com.github.brunosc.fetcher.domain.VideoDetails;
 import com.github.brunosc.lor.domain.LoRChampion;

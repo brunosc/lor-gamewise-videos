@@ -84,6 +84,8 @@ Considering `info.gamewise.lor.videos`
   
 - **`service`** contains the implementation of the uses cases.
   
-- **`usecase`** contains the uses cases that should be implemented by a service or the persistence adapter.
+- **`port.in`** use cases classes to handle some business logic
+  
+- **`port.out`** these interfaces are designed to fit the needs of the use cases
 
 As you may notice, I am using a Use Case interface for each functionality. Also, the JPA classes must be not exposed out of the `entity` package.
