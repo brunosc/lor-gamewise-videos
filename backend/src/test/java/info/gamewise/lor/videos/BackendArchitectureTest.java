@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.tngtech.archunit.base.DescribedPredicate.not;
 import static com.tngtech.archunit.core.domain.JavaClass.Predicates.belongToAnyOf;
+import static com.tngtech.archunit.core.domain.JavaClass.Predicates.simpleNameEndingWith;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 class BackendArchitectureTest {
@@ -55,6 +56,7 @@ class BackendArchitectureTest {
         JavaClasses importedClasses = new ClassFileImporter().importPackages(CONTROLLER);
 
         ArchRule rule = classes()
+                .that(not(simpleNameEndingWith("Test")))
                 .should()
                 .haveSimpleNameEndingWith("Controller")
                 .andShould()
