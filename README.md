@@ -48,7 +48,7 @@ npm install
 npm run serve
 ```
 
-## Scheduler
+### Scheduler
 
 There is a scheduler running every 2 hour. It is disabled by default, if you want to try it you have to set `lor.you-tube.scheduler.enabled=true` 
 

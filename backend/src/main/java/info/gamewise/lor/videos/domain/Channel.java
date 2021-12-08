@@ -27,7 +27,9 @@ public enum Channel {
     SQUIRRELS("Squirrels", "UUb42Ogf65ddvkCuPFIw57UQ"),
     GRIMSET("Grimset", "UUh-rIrNS9D0_MDKx-dM2YTA"),
     HOBBITSIZZ("hobbitsizz", "UUk_QEZixG7d5yblvsNjYomg"),
-    ELITE4IN1("Elite4in1", "UUSLgEtVzKSnav4XcxOjcT7g");
+    ELITE4IN1("Elite4in1", "UUSLgEtVzKSnav4XcxOjcT7g"),
+    LOR_META("LoR Meta", "UU3ZuKcljVqVEo3oijXhF1Tw"),
+    RAPHTERRA("Raphterra", "UUiRxxbINsJvmLWvp-9JTOdg");
 
     private final String name;
     private final String playlistId;
