@@ -1,4 +1,4 @@
-FROM maven:3-openjdk-15-slim
+FROM maven:3-openjdk-16-slim
 
 ADD . /lorvideos
 WORKDIR /lorvideos
@@ -7,7 +7,7 @@ RUN ls -l
 
 RUN mvn clean install
 
-FROM maven:3-openjdk-15-slim
+FROM maven:3-openjdk-16-slim
 
 MAINTAINER Bruno Martins da Silva
 
