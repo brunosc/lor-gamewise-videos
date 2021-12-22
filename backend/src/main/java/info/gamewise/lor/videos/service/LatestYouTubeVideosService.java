@@ -5,6 +5,7 @@ import com.github.brunosc.fetcher.domain.VideoDetails;
 import com.github.brunosc.fetcher.domain.YouTubeFetcherParams;
 import info.gamewise.lor.videos.config.LocalServerProperties;
 import info.gamewise.lor.videos.domain.Channel;
+import info.gamewise.lor.videos.domain.LoRChannel;
 import info.gamewise.lor.videos.port.out.LatestYouTubeVideosUseCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,9 +41,9 @@ class LatestYouTubeVideosService implements LatestYouTubeVideosUseCase {
     }
 
     @Override
-    public List<VideoDetails> latestVideosByChannel(Channel channel) {
+    public List<VideoDetails> latestVideosByChannel(LoRChannel channel) {
         try {
-            return youTubeFetcher.fetchByPlaylistId(channel.getPlaylistId(), VIDEOS_BY_CHANNEL);
+            return youTubeFetcher.fetchByPlaylistId(channel.playlistId(), VIDEOS_BY_CHANNEL);
         } catch (IOException e) {
             LOG.error("There was an error to fetch the latest videos.", e);
             return emptyList();

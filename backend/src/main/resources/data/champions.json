@@ -1,0 +1,402 @@
+[
+  {
+    "id": "02BW046",
+    "code": "FIZZ",
+    "name": "Fizz"
+  },
+  {
+    "id": "01PZ008",
+    "code": "TEEMO",
+    "name": "Teemo"
+  },
+  {
+    "id": "03MT009",
+    "code": "ZOE",
+    "name": "Zoe"
+  },
+  {
+    "id": "03MT056",
+    "code": "DIANA",
+    "name": "Diana"
+  },
+  {
+    "id": "01SI053",
+    "code": "ELISE",
+    "name": "Elise"
+  },
+  {
+    "id": "01DE022",
+    "code": "LUCIAN",
+    "name": "Lucian"
+  },
+  {
+    "id": "01NX020",
+    "code": "DRAVEN",
+    "name": "Draven"
+  },
+  {
+    "id": "01PZ036",
+    "code": "EZREAL",
+    "name": "Ezreal"
+  },
+  {
+    "id": "01DE045",
+    "code": "FIORA",
+    "name": "Fiora"
+  },
+  {
+    "id": "01SI030",
+    "code": "KALISTA",
+    "name": "Kalista"
+  },
+  {
+    "id": "01NX042",
+    "code": "KATARINA",
+    "name": "Katarina"
+  },
+  {
+    "id": "03IO002",
+    "code": "LULU",
+    "name": "Lulu"
+  },
+  {
+    "id": "02BW022",
+    "code": "MISS_FORTUNE",
+    "name": "Miss Fortune"
+  },
+  {
+    "id": "03NX007",
+    "code": "RIVEN",
+    "name": "Riven"
+  },
+  {
+    "id": "03MT055",
+    "code": "SORAKA",
+    "name": "Soraka"
+  },
+  {
+    "id": "01IO009",
+    "code": "ZED",
+    "name": "Zed"
+  },
+  {
+    "id": "01FR038",
+    "code": "ASHE",
+    "name": "Ashe"
+  },
+  {
+    "id": "01FR009",
+    "code": "BRAUM",
+    "name": "Braum"
+  },
+  {
+    "id": "01PZ040",
+    "code": "JINX",
+    "name": "Jinx"
+  },
+  {
+    "id": "03MT054",
+    "code": "LEONA",
+    "name": "Leona"
+  },
+  {
+    "id": "02SI008",
+    "code": "MAOKAI",
+    "name": "Maokai"
+  },
+  {
+    "id": "03SI005",
+    "code": "NOCTURNE",
+    "name": "Nocturne"
+  },
+  {
+    "id": "01IO032",
+    "code": "SHEN",
+    "name": "Shen"
+  },
+  {
+    "id": "03DE011",
+    "code": "SHYVANA",
+    "name": "Shyvana"
+  },
+  {
+    "id": "03BW004",
+    "code": "TAHM_KENCH",
+    "name": "Tahm Kench"
+  },
+  {
+    "id": "03MT058",
+    "code": "TARIC",
+    "name": "Taric"
+  },
+  {
+    "id": "02BW026",
+    "code": "TWISTED_FATE",
+    "name": "Twisted Fate"
+  },
+  {
+    "id": "03PZ003",
+    "code": "VIKTOR",
+    "name": "Viktor"
+  },
+  {
+    "id": "01IO015",
+    "code": "YASUO",
+    "name": "Yasuo"
+  },
+  {
+    "id": "02BW032",
+    "code": "GANGPLANK",
+    "name": "Gangplank"
+  },
+  {
+    "id": "01DE012",
+    "code": "GAREN",
+    "name": "Garen"
+  },
+  {
+    "id": "01PZ056",
+    "code": "HEIMERDINGER",
+    "name": "Heimerdinger"
+  },
+  {
+    "id": "02IO006",
+    "code": "LEE_SIN",
+    "name": "Lee Sin"
+  },
+  {
+    "id": "02DE006",
+    "code": "QUINN",
+    "name": "Quinn"
+  },
+  {
+    "id": "01SI052",
+    "code": "THRESH",
+    "name": "Thresh"
+  },
+  {
+    "id": "01NX006",
+    "code": "VLADIMIR",
+    "name": "Vladimir"
+  },
+  {
+    "id": "02PZ008",
+    "code": "VI",
+    "name": "Vi"
+  },
+  {
+    "id": "03FR006",
+    "code": "TRUNDLE",
+    "name": "Trundle"
+  },
+  {
+    "id": "01FR024",
+    "code": "ANIVIA",
+    "name": "Anivia"
+  },
+  {
+    "id": "01NX038",
+    "code": "DARIUS",
+    "name": "Darius"
+  },
+  {
+    "id": "01SI042",
+    "code": "HECARIM",
+    "name": "Hecarim"
+  },
+  {
+    "id": "01IO041",
+    "code": "KARMA",
+    "name": "Karma"
+  },
+  {
+    "id": "01DE042",
+    "code": "LUX",
+    "name": "Lux"
+  },
+  {
+    "id": "02FR002",
+    "code": "SEJUANI",
+    "name": "Sejuani"
+  },
+  {
+    "id": "02BW053",
+    "code": "NAUTILUS",
+    "name": "Nautilus"
+  },
+  {
+    "id": "01FR039",
+    "code": "TRYNDAMERE",
+    "name": "Tryndamere"
+  },
+  {
+    "id": "02NX007",
+    "code": "SWAIN",
+    "name": "Swain"
+  },
+  {
+    "id": "03MT087",
+    "code": "AURELION_SOL",
+    "name": "Aurelion Sol"
+  },
+  {
+    "id": "03MT217",
+    "code": "APHELIOS",
+    "name": "Aphelios"
+  },
+  {
+    "id": "04NX004",
+    "code": "LEBLANC",
+    "name": "Leblanc"
+  },
+  {
+    "id": "04FR005",
+    "code": "LISSANDRA",
+    "name": "Lissandra"
+  },
+  {
+    "id": "04SH067",
+    "code": "RENEKTON",
+    "name": "Renekton"
+  },
+  {
+    "id": "04SH020",
+    "code": "SIVIR",
+    "name": "Sivir"
+  },
+  {
+    "id": "04SI005",
+    "code": "KINDRED",
+    "name": "Kindred"
+  },
+  {
+    "id": "04SH073",
+    "code": "TALIYAH",
+    "name": "Taliyah"
+  },
+  {
+    "id": "04DE008",
+    "code": "JARVAN_IV",
+    "name": "Jarvan Iv"
+  },
+  {
+    "id": "04SH047",
+    "code": "NASUS",
+    "name": "Nasus"
+  },
+  {
+    "id": "04SH003",
+    "code": "AZIR",
+    "name": "Azir"
+  },
+  {
+    "id": "04SH039",
+    "code": "ZILEAN",
+    "name": "Zilean"
+  },
+  {
+    "id": "04MT008",
+    "code": "MALPHITE",
+    "name": "Malphite"
+  },
+  {
+    "id": "04IO005",
+    "code": "IRELIA",
+    "name": "Irelia"
+  },
+  {
+    "id": "04PZ001",
+    "code": "EKKO",
+    "name": "Ekko"
+  },
+  {
+    "id": "04BW005",
+    "code": "PYKE",
+    "name": "Pyke"
+  },
+  {
+    "id": "04SH019",
+    "code": "REK_SAI",
+    "name": "Rek Sai"
+  },
+  {
+    "id": "04SH130",
+    "code": "AKSHAN",
+    "name": "Akshan"
+  },
+  {
+    "id": "04SI055",
+    "code": "VIEGO",
+    "name": "Viego"
+  },
+  {
+    "id": "05PZ006",
+    "code": "CAITLYN",
+    "name": "Caitlyn"
+  },
+  {
+    "id": "05BW005",
+    "code": "NAMI",
+    "name": "Nami"
+  },
+  {
+    "id": "05BC133",
+    "code": "TRISTANA",
+    "name": "Tristana"
+  },
+  {
+    "id": "05BC163",
+    "code": "ZIGGS",
+    "name": "Ziggs"
+  },
+  {
+    "id": "05BC041",
+    "code": "POPPY",
+    "name": "Poppy"
+  },
+  {
+    "id": "05BC093",
+    "code": "VEIGAR",
+    "name": "Veigar"
+  },
+  {
+    "id": "05SH014",
+    "code": "XERATH",
+    "name": "Xerath"
+  },
+  {
+    "id": "05SI009",
+    "code": "SENNA",
+    "name": "Senna"
+  },
+  {
+    "id": "05NX001",
+    "code": "SION",
+    "name": "Sion"
+  },
+  {
+    "id": "05BC058",
+    "code": "KENNEN",
+    "name": "Kennen"
+  },
+  {
+    "id": "05IO004",
+    "code": "AHRI",
+    "name": "Ahri"
+  },
+  {
+    "id": "05MT003",
+    "code": "PANTHEON",
+    "name": "Pantheon"
+  },
+  {
+    "id": "05BC088",
+    "code": "RUMBLE",
+    "name": "Rumble"
+  },
+  {
+    "id": "05PZ022",
+    "code": "JAYCE",
+    "name": "Jayce"
+  }
+]

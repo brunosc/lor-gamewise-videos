@@ -4,9 +4,9 @@ public final class VideoChannel {
     private final String name;
     private final String code;
 
-    public VideoChannel(Channel channel) {
-        this.name = channel.getName();
-        this.code = channel.toString();
+    public VideoChannel(LoRChannel channel) {
+        this.name = channel.name();
+        this.code = channel.code();
     }
 
     public String getName() {

@@ -1,7 +1,7 @@
 package info.gamewise.lor.videos.scheduler;
 
 import info.gamewise.lor.videos.port.out.SaveVideoUseCase;
-import info.gamewise.lor.videos.port.out.VideosNotInDatabaseUseCase;
+import info.gamewise.lor.videos.port.out.VideosNotInDatabasePort;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -18,10 +18,10 @@ public class YouTubeVideosScheduler {
     private static final int IMPORT_RATE = HOUR * 60 * 60 * 1000;
     private static final AtomicReference<LocalDateTime> UPDATED_AT = new AtomicReference<>(LocalDateTime.now(ZoneOffset.UTC));
 
-    private final VideosNotInDatabaseUseCase videosNotInDatabaseUseCase;
+    private final VideosNotInDatabasePort videosNotInDatabaseUseCase;
     private final SaveVideoUseCase saveVideoUseCase;
 
-    YouTubeVideosScheduler(VideosNotInDatabaseUseCase videosNotInDatabaseUseCase, SaveVideoUseCase saveVideoUseCase) {
+    YouTubeVideosScheduler(VideosNotInDatabasePort videosNotInDatabaseUseCase, SaveVideoUseCase saveVideoUseCase) {
         this.videosNotInDatabaseUseCase = videosNotInDatabaseUseCase;
         this.saveVideoUseCase = saveVideoUseCase;
     }

@@ -9,11 +9,12 @@ import com.google.api.services.youtube.model.PlaylistItemSnippet;
 import com.google.api.services.youtube.model.ResourceId;
 import com.google.api.services.youtube.model.ThumbnailDetails;
 import info.gamewise.lor.videos.domain.Channel;
+import info.gamewise.lor.videos.domain.LoRChannel;
 import info.gamewise.lor.videos.domain.LoRVideo;
 import info.gamewise.lor.videos.domain.VideoChampion;
 import info.gamewise.lor.videos.domain.VideoChannel;
 import info.gamewise.lor.videos.domain.VideoRegion;
-import info.gamewise.lor.videos.port.out.VideosNotInDatabaseUseCase.NewVideo;
+import info.gamewise.lor.videos.port.out.VideosNotInDatabasePort.NewVideo;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -32,11 +33,11 @@ public class DataLoader {
         return new VideoDetails(playlistItem(id, deckCode, publishedAt));
     }
 
-    public static NewVideo newVideo(int day, String id, Channel channel, Set<LoRRegion> regions, Set<LoRChampion> champions) {
+    public static NewVideo newVideo(int day, String id, LoRChannel channel, Set<LoRRegion> regions, Set<LoRChampion> champions) {
         return new NewVideo("DECK_CODE", videoDetails(id, "DECK_CODE", LocalDate.of(2021, 1, day).toEpochDay()), channel, regions, champions);
     }
 
-    public static LoRVideo newLoRVideo(Channel channel, Set<LoRChampion> champions, Set<LoRRegion> regions, int day) {
+    public static LoRVideo newLoRVideo(LoRChannel channel, Set<LoRChampion> champions, Set<LoRRegion> regions, int day) {
         return new LoRVideo(
                 "url " + day,
                 "title " + day,

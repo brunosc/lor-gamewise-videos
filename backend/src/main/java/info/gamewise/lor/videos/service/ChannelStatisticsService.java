@@ -28,33 +28,33 @@ class ChannelStatisticsService implements GetChannelStatisticsUseCase {
     }
 
     @Override
-    public ChannelStatistics channelStatistics(Channel channel) {
+    public ChannelStatistics channelStatistics(String channel) {
         List<LoRVideo> videos = port.videosByChannel(channel);
 
         LocalDateTime startedAt = videos.stream()
-                .map(LoRVideo::getPublishedAt)
+                .map(LoRVideo::publishedAt)
                 .min(LocalDateTime::compareTo)
                 .orElse(LocalDateTime.now());
 
         List<NameCount> championsCount = champions()
                 .stream()
                 .map(champion -> new NameCount(champion.prettyName(), countVideosByChampion(videos, champion)))
-                .sorted(Comparator.comparing(NameCount::getName))
-                .sorted(Comparator.comparing(NameCount::getCount).reversed())
-                .collect(toUnmodifiableList());
+                .sorted(Comparator.comparing(NameCount::name))
+                .sorted(Comparator.comparing(NameCount::count).reversed())
+                .toList();
 
         List<NameCount> regionsCount = regions()
                 .stream()
                 .map(region -> new NameCount(region.prettyName(), countVideosByRegion(videos, region)))
-                .sorted(Comparator.comparing(NameCount::getName))
-                .sorted(Comparator.comparing(NameCount::getCount).reversed())
-                .collect(toUnmodifiableList());
+                .sorted(Comparator.comparing(NameCount::name))
+                .sorted(Comparator.comparing(NameCount::count).reversed())
+                .toList();
 
         return new ChannelStatistics(startedAt.toLocalDate(), championsCount, regionsCount);
     }
 
     private long countVideosByChampion(List<LoRVideo> videos, LoRChampion champion) {
-        Predicate<LoRVideo> predicate = video -> video.getChampions()
+        Predicate<LoRVideo> predicate = video -> video.champions()
                 .stream()
                 .anyMatch(videoChampion -> videoChampion.getCode().equals(champion.getId()));
 
@@ -62,7 +62,7 @@ class ChannelStatisticsService implements GetChannelStatisticsUseCase {
     }
 
     private long countVideosByRegion(List<LoRVideo> videos, LoRRegion region) {
-        Predicate<LoRVideo> predicate = video -> video.getRegions()
+        Predicate<LoRVideo> predicate = video -> video.regions()
                 .stream()
                 .anyMatch(videoRegion -> videoRegion.getCode().equals(region.getCode()));
 
@@ -76,12 +76,12 @@ class ChannelStatisticsService implements GetChannelStatisticsUseCase {
     private List<LoRChampion> champions() {
         return EnumSet.allOf(LoRChampion.class)
                 .stream()
-                .collect(toUnmodifiableList());
+                .toList();
     }
 
     private List<LoRRegion> regions() {
         return EnumSet.allOf(LoRRegion.class)
                 .stream()
-                .collect(toUnmodifiableList());
+                .toList();
     }
 }

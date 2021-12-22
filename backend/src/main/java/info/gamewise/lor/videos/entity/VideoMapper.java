@@ -2,11 +2,12 @@ package info.gamewise.lor.videos.entity;
 
 import com.github.brunosc.lor.domain.LoRChampion;
 import com.github.brunosc.lor.domain.LoRRegion;
-import info.gamewise.lor.videos.domain.Channel;
+import info.gamewise.lor.videos.domain.LoRChannel;
 import info.gamewise.lor.videos.domain.LoRVideo;
 import info.gamewise.lor.videos.domain.VideoChampion;
 import info.gamewise.lor.videos.domain.VideoChannel;
 import info.gamewise.lor.videos.domain.VideoRegion;
+import info.gamewise.lor.videos.port.out.GetChannelsPort;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -15,17 +16,21 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static java.util.stream.Collectors.toUnmodifiableList;
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
 @Component
 class VideoMapper {
 
+    private final GetChannelsPort getChannelsPort;
+
+    VideoMapper(GetChannelsPort getChannelsPort) {
+        this.getChannelsPort = getChannelsPort;
+    }
+
     Page<LoRVideo> toDomainPage(Page<VideoJpaEntity> page, Pageable pageable) {
         final var videos = page.getContent()
                 .stream()
-                .map(this::toDomain)
-                .collect(toUnmodifiableList());
+                .map(this::toDomain).toList();
 
         return new PageImpl<>(videos, pageable, page.getTotalElements());
     }
@@ -59,8 +64,10 @@ class VideoMapper {
         return new TreeSet<>(domainRegions);
     }
 
-    private VideoChannel mapChannel(Channel channel) {
-        return new VideoChannel(channel);
+    private VideoChannel mapChannel(String channel) {
+        return getChannelsPort.getChannelByCode(channel)
+                .map(VideoChannel::new)
+                .orElse(null);
     }
 
 }

@@ -4,7 +4,7 @@ import com.github.brunosc.fetcher.domain.VideoThumbnails;
 import com.github.brunosc.lor.domain.LoRChampion;
 import com.github.brunosc.lor.domain.LoRRegion;
 import info.gamewise.lor.videos.domain.Channel;
-import info.gamewise.lor.videos.port.out.VideosNotInDatabaseUseCase.NewVideo;
+import info.gamewise.lor.videos.port.out.VideosNotInDatabasePort.NewVideo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -24,7 +24,7 @@ class VideoJpaEntity {
     private String url;
     private String title;
     private String deckCode;
-    private Channel channel;
+    private String channel;
     private Set<LoRRegion> regions;
     private Set<LoRChampion> champions;
     private LocalDateTime publishedAt;
@@ -35,15 +35,15 @@ class VideoJpaEntity {
     }
 
     VideoJpaEntity(NewVideo newVideo) {
-        this.videoId = newVideo.getDetails().getId();
-        this.url = newVideo.getDetails().getUrl();
-        this.title = newVideo.getDetails().getTitle();
-        this.deckCode = newVideo.getDeckCode();
-        this.publishedAt = newVideo.getDetails().getPublishedAt();
-        this.thumbnails = newVideo.getDetails().getThumbnails();
-        this.channel = newVideo.getChannel();
-        this.regions = newVideo.getRegions();
-        this.champions = newVideo.getChampions();
+        this.videoId = newVideo.details().getId();
+        this.url = newVideo.details().getUrl();
+        this.title = newVideo.details().getTitle();
+        this.deckCode = newVideo.deckCode();
+        this.publishedAt = newVideo.details().getPublishedAt();
+        this.thumbnails = newVideo.details().getThumbnails();
+        this.channel = newVideo.channel().code();
+        this.regions = newVideo.regions();
+        this.champions = newVideo.champions();
     }
 
     public String getId() {
@@ -62,7 +62,7 @@ class VideoJpaEntity {
         return title;
     }
 
-    public Channel getChannel() {
+    public String getChannel() {
         return channel;
     }
 

@@ -1,8 +1,8 @@
 package info.gamewise.lor.videos.service;
 
-import info.gamewise.lor.videos.domain.Channel;
 import info.gamewise.lor.videos.domain.ChannelStatistics;
 import info.gamewise.lor.videos.domain.ChannelStatistics.NameCount;
+import info.gamewise.lor.videos.domain.LoRChannel;
 import info.gamewise.lor.videos.domain.LoRVideo;
 import info.gamewise.lor.videos.port.out.GetVideosByChannelPort;
 import org.junit.jupiter.api.Test;
@@ -12,8 +12,26 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
-import static com.github.brunosc.lor.domain.LoRChampion.*;
-import static com.github.brunosc.lor.domain.LoRRegion.*;
+import static com.github.brunosc.lor.domain.LoRChampion.ASHE;
+import static com.github.brunosc.lor.domain.LoRChampion.ELISE;
+import static com.github.brunosc.lor.domain.LoRChampion.EZREAL;
+import static com.github.brunosc.lor.domain.LoRChampion.KINDRED;
+import static com.github.brunosc.lor.domain.LoRChampion.LEE_SIN;
+import static com.github.brunosc.lor.domain.LoRChampion.MALPHITE;
+import static com.github.brunosc.lor.domain.LoRChampion.RENEKTON;
+import static com.github.brunosc.lor.domain.LoRChampion.RIVEN;
+import static com.github.brunosc.lor.domain.LoRChampion.SIVIR;
+import static com.github.brunosc.lor.domain.LoRChampion.SWAIN;
+import static com.github.brunosc.lor.domain.LoRChampion.YASUO;
+import static com.github.brunosc.lor.domain.LoRChampion.ZED;
+import static com.github.brunosc.lor.domain.LoRRegion.DEMACIA;
+import static com.github.brunosc.lor.domain.LoRRegion.FRELJORD;
+import static com.github.brunosc.lor.domain.LoRRegion.IONIA;
+import static com.github.brunosc.lor.domain.LoRRegion.MOUNT_TARGON;
+import static com.github.brunosc.lor.domain.LoRRegion.NOXUS;
+import static com.github.brunosc.lor.domain.LoRRegion.PILTOVER_AND_ZAUN;
+import static com.github.brunosc.lor.domain.LoRRegion.SHADOW_ILES;
+import static com.github.brunosc.lor.domain.LoRRegion.SHURIMA;
 import static info.gamewise.lor.videos.DataLoader.newLoRVideo;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,6 +39,8 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
 class ChannelStatisticsServiceTest {
+
+    private static final LoRChannel MEGA_MOGWAI = new LoRChannel("MEGA_MOGWAI", "MegaMogwai", "1");
 
     private final GetVideosByChannelPort port =
             Mockito.mock(GetVideosByChannelPort.class);
@@ -30,25 +50,25 @@ class ChannelStatisticsServiceTest {
 
     @Test
     void shouldCalculateStatisticsByChannel() {
-        Channel channel = Channel.MEGA_MOGWAI;
-        given(port.videosByChannel(eq(channel))).willReturn(videos(channel));
+        LoRChannel channel = MEGA_MOGWAI;
+        given(port.videosByChannel(eq(channel.code()))).willReturn(videos(channel));
 
-        ChannelStatistics channelStatistics = cut.channelStatistics(channel);
+        ChannelStatistics channelStatistics = cut.channelStatistics(channel.code());
 
-        assertEquals(channelStatistics.getStartedAt(), LocalDate.of(2020, 1, 1));
-        assertThat(channelStatistics.getChampions()).isNotEmpty();
-        assertThat(channelStatistics.getRegions()).isNotEmpty();
+        assertEquals(channelStatistics.startedAt(), LocalDate.of(2020, 1, 1));
+        assertThat(channelStatistics.champions()).isNotEmpty();
+        assertThat(channelStatistics.regions()).isNotEmpty();
 
-        NameCount mostPopularChampion = channelStatistics.getChampions().get(0);
-        assertEquals(mostPopularChampion.getName(), YASUO.prettyName());
-        assertEquals(mostPopularChampion.getCount(), 2L);
+        NameCount mostPopularChampion = channelStatistics.champions().get(0);
+        assertEquals(mostPopularChampion.name(), YASUO.prettyName());
+        assertEquals(mostPopularChampion.count(), 2L);
 
-        NameCount mostPopularRegion = channelStatistics.getRegions().get(0);
-        assertEquals(mostPopularRegion.getName(), IONIA.prettyName());
-        assertEquals(mostPopularRegion.getCount(), 4L);
+        NameCount mostPopularRegion = channelStatistics.regions().get(0);
+        assertEquals(mostPopularRegion.name(), IONIA.prettyName());
+        assertEquals(mostPopularRegion.count(), 4L);
     }
 
-    private List<LoRVideo> videos(Channel channel) {
+    private List<LoRVideo> videos(LoRChannel channel) {
         return List.of(
                 newLoRVideo(channel, Set.of(ELISE), Set.of(NOXUS, SHADOW_ILES), 1),
                 newLoRVideo(channel, Set.of(LEE_SIN, RIVEN), Set.of(NOXUS, IONIA), 2),

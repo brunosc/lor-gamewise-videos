@@ -8,7 +8,6 @@ import info.gamewise.lor.videos.deckcodeextractor.DescriptionWithRegisteredDeckE
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.Collections.singletonList;
 import static java.util.List.of;
 
 public enum Channel {
