@@ -1,6 +1,5 @@
 package info.gamewise.lor.videos.entity;
 
-import com.github.brunosc.lor.domain.LoRChampion;
 import com.github.brunosc.lor.domain.LoRRegion;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
@@ -32,7 +31,7 @@ class VideoPredicate {
 
         if (!isEmpty(params.champions())) {
             for (String champion : params.champions()) {
-                predicate.and(q.champions.contains(LoRChampion.fromCardCode(champion)));
+                predicate.and(q.champions.contains(champion));
             }
         }
 

@@ -8,6 +8,7 @@ import com.google.api.services.youtube.model.PlaylistItem;
 import com.google.api.services.youtube.model.PlaylistItemSnippet;
 import com.google.api.services.youtube.model.ResourceId;
 import com.google.api.services.youtube.model.ThumbnailDetails;
+import info.gamewise.lor.videos.domain.ChampionRecord;
 import info.gamewise.lor.videos.domain.Channel;
 import info.gamewise.lor.videos.domain.LoRChannel;
 import info.gamewise.lor.videos.domain.LoRVideo;
@@ -37,7 +38,7 @@ public class DataLoader {
         return new NewVideo("DECK_CODE", videoDetails(id, "DECK_CODE", LocalDate.of(2021, 1, day).toEpochDay()), channel, regions, champions);
     }
 
-    public static LoRVideo newLoRVideo(LoRChannel channel, Set<LoRChampion> champions, Set<LoRRegion> regions, int day) {
+    public static LoRVideo newLoRVideo(LoRChannel channel, Set<ChampionRecord> champions, Set<LoRRegion> regions, int day) {
         return new LoRVideo(
                 "url " + day,
                 "title " + day,

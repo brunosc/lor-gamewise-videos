@@ -1,9 +1,7 @@
 package info.gamewise.lor.videos.entity;
 
 import com.github.brunosc.fetcher.domain.VideoThumbnails;
-import com.github.brunosc.lor.domain.LoRChampion;
 import com.github.brunosc.lor.domain.LoRRegion;
-import info.gamewise.lor.videos.domain.Channel;
 import info.gamewise.lor.videos.port.out.VideosNotInDatabasePort.NewVideo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -11,6 +9,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.Set;
+
+import static java.util.stream.Collectors.toUnmodifiableSet;
 
 @Document(collection = "videos")
 class VideoJpaEntity {
@@ -26,7 +26,7 @@ class VideoJpaEntity {
     private String deckCode;
     private String channel;
     private Set<LoRRegion> regions;
-    private Set<LoRChampion> champions;
+    private Set<String> champions;
     private LocalDateTime publishedAt;
     private VideoThumbnails thumbnails;
 
@@ -43,7 +43,7 @@ class VideoJpaEntity {
         this.thumbnails = newVideo.details().getThumbnails();
         this.channel = newVideo.channel().code();
         this.regions = newVideo.regions();
-        this.champions = newVideo.champions();
+        this.champions = newVideo.champions().stream().map(Enum::name).collect(toUnmodifiableSet());
     }
 
     public String getId() {
@@ -70,7 +70,7 @@ class VideoJpaEntity {
         return regions;
     }
 
-    public Set<LoRChampion> getChampions() {
+    public Set<String> getChampions() {
         return champions;
     }
 

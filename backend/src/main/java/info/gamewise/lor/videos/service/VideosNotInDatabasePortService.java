@@ -6,7 +6,6 @@ import com.github.brunosc.lor.domain.LoRCard;
 import com.github.brunosc.lor.domain.LoRChampion;
 import com.github.brunosc.lor.domain.LoRDeck;
 import com.github.brunosc.lor.domain.LoRRegion;
-import info.gamewise.lor.videos.domain.Channel;
 import info.gamewise.lor.videos.domain.LoRChannel;
 import info.gamewise.lor.videos.port.out.GetChannelsPort;
 import info.gamewise.lor.videos.port.out.LatestYouTubeVideosUseCase;
@@ -17,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -52,9 +50,11 @@ class VideosNotInDatabasePortService implements VideosNotInDatabasePort {
 
     private List<NewVideo> latestVideos() {
         return channelsStream()
-                .map(this::latestVideosByChannel).toList()
+                .map(this::latestVideosByChannel)
+                .toList()
                 .stream()
-                .flatMap(Collection::stream).toList();
+                .flatMap(Collection::stream)
+                .toList();
     }
 
     private Stream<LoRChannel> channelsStream() {

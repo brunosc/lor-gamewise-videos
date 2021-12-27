@@ -9,7 +9,8 @@ import java.util.List;
 public interface GetVideosUseCase {
     Page<LoRVideo> fetchByFilter(SearchParams params, Pageable pageable);
 
-    record SearchParams(List<String> regions, List<String> champions,
+    record SearchParams(List<String> regions,
+                        List<String> champions,
                         List<String> channels) {
     }
 }

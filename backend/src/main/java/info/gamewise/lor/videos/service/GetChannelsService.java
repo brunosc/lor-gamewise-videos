@@ -29,7 +29,6 @@ class GetChannelsService implements GetChannelsPort {
     @Override
     @Cacheable(LoRCacheConfig.CHANNELS)
     public List<LoRChannel> getChannels() {
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!! GET CHANNELS !!!!!!!!!!!!!!!!!!!!!!");
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<List<LoRChannel>> response = restTemplate.exchange(URL, GET, httpEntity(), new ParameterizedTypeReference<>() {});
 

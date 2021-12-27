@@ -1,15 +1,19 @@
 package info.gamewise.lor.videos.controller;
 
-import info.gamewise.lor.videos.domain.AppSettings;
-import info.gamewise.lor.videos.domain.Channel;
+import info.gamewise.lor.videos.config.ClearCache;
+import info.gamewise.lor.videos.domain.ChampionRecord;
 import info.gamewise.lor.videos.domain.ChannelStatistics;
+import info.gamewise.lor.videos.domain.LoRChannel;
 import info.gamewise.lor.videos.domain.LoRVideo;
 import info.gamewise.lor.videos.domain.LoRVideoFilter;
 import info.gamewise.lor.videos.port.in.GetAppSettingsUseCase;
+import info.gamewise.lor.videos.port.in.GetAppSettingsUseCase.AppSettings;
 import info.gamewise.lor.videos.port.in.GetChannelStatisticsUseCase;
 import info.gamewise.lor.videos.port.in.GetFiltersUseCase;
 import info.gamewise.lor.videos.port.in.GetVideosUseCase;
 import info.gamewise.lor.videos.port.in.GetVideosUseCase.SearchParams;
+import info.gamewise.lor.videos.port.out.GetChampionsPort;
+import info.gamewise.lor.videos.port.out.GetChannelsPort;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +21,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api")
@@ -27,11 +33,16 @@ class ApiController {
     private final GetAppSettingsUseCase appSettingsUseCase;
     private final GetChannelStatisticsUseCase channelStatisticsUseCase;
 
-    ApiController(GetVideosUseCase videosUseCase, GetFiltersUseCase filtersUseCase, GetAppSettingsUseCase appSettingsUseCase, GetChannelStatisticsUseCase channelStatisticsUseCase) {
+    private final GetChannelsPort getChannelsPort;
+    private final GetChampionsPort getChampionsPort;
+
+    ApiController(GetVideosUseCase videosUseCase, GetFiltersUseCase filtersUseCase, GetAppSettingsUseCase appSettingsUseCase, GetChannelStatisticsUseCase channelStatisticsUseCase, GetChannelsPort getChannelsPort, GetChampionsPort getChampionsPort) {
         this.videosUseCase = videosUseCase;
         this.filtersUseCase = filtersUseCase;
         this.appSettingsUseCase = appSettingsUseCase;
         this.channelStatisticsUseCase = channelStatisticsUseCase;
+        this.getChannelsPort = getChannelsPort;
+        this.getChampionsPort = getChampionsPort;
     }
 
     @GetMapping("filters")
@@ -50,7 +61,23 @@ class ApiController {
     }
 
     @GetMapping("/channel/{channel}/statistics")
-    ResponseEntity<ChannelStatistics> getChannelStatistics(@PathVariable Channel channel) {
+    ResponseEntity<ChannelStatistics> getChannelStatistics(@PathVariable String channel) {
         return ResponseEntity.ok(channelStatisticsUseCase.channelStatistics(channel));
+    }
+
+    @GetMapping("channels")
+    ResponseEntity<List<LoRChannel>> getChannels() {
+        return ResponseEntity.ok(getChannelsPort.getChannels());
+    }
+
+    @GetMapping("champions")
+    ResponseEntity<List<ChampionRecord>> getChampions() {
+        return ResponseEntity.ok(getChampionsPort.getChampions());
+    }
+
+    @GetMapping("clear-cache")
+    @ClearCache
+    public ResponseEntity<Void> clearChannelsCache() {
+        return ResponseEntity.noContent().build();
     }
 }
