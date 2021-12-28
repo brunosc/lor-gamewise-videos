@@ -2,7 +2,7 @@
   <div>
     <span class="text-filter text-white" @click="openNav()">&#9776; filter</span>
     <div id="mySidenav" class="sidenav">
-      <a href="javascript:void(0)" class="close-btn" @click="closeNav()">&times;</a>
+      <a href="javascript:void(0)" class="close-btn" @click="closeNav">&times;</a>
       <div class="container">
         <region-group-filter/>
         <champion-group-filter/>
@@ -15,6 +15,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { closeNavFilter } from '@/mixins/closeNavFilter';
 import SaveFilterSwitch from './SaveFilterSwitch';
 import RegionGroupFilter from './region/RegionGroupFilter';
 import ChannelGroupFilter from './channel/ChannelGroupFilter';
@@ -22,6 +23,7 @@ import ChampionGroupFilter from './champion/ChampionGroupFilter';
 
 export default {
   name: 'FilterPanel',
+  mixins: [ closeNavFilter ],
 
   components: {
     RegionGroupFilter,
@@ -40,12 +42,8 @@ export default {
     }),
 
     openNav() {
-      document.getElementById("mySidenav").style.width = "250px";
+      document.getElementById("mySidenav").style.width = '250px';
     },
-
-    closeNav() {
-      document.getElementById("mySidenav").style.width = "0";
-    }
   },
 }
 </script>
