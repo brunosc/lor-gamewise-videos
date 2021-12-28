@@ -27,7 +27,7 @@ export default {
   .group-regions {
     position: relative;
     display: grid;
-    grid-template-rows: repeat(4, auto);
+    grid-template-rows: repeat(5, auto);
     grid-auto-flow: column;
     gap: 24px 12px;
   }

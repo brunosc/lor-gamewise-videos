@@ -2,7 +2,9 @@
   <div class="region-item">
     <input type="checkbox" v-model="selectedRegion" class="btn-check btn-region" :id="region.code" autocomplete="off" @change="onChange">
     <label class="btn btn-outline-secondary btn-region btn-sm" :for="region.code">
-      <img :src="regionUrl()" width="24" height="24" :alt="region.description"/>
+      <div>
+        <img :src="regionUrl()" width="24" height="24" :alt="region.description"/>
+      </div>
       <span class="region-name">{{ region.description }}</span>
     </label>
   </div>
@@ -54,20 +56,20 @@ export default {
 </script>
 
 <style scoped>
-  .region-name {
-    font-size: 12px;
-    line-height: 20px;
-    font-weight: 400;
-  }
+.region-name {
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 400;
+}
 
-  .btn-region {
-    width: 100%;
-  }
+.btn-region {
+  width: 100%;
+}
 
-  .region-item {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    cursor: pointer;
-  }
+.region-item {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  cursor: pointer;
+}
 </style>

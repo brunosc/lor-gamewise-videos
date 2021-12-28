@@ -6,16 +6,16 @@ import com.github.brunosc.lor.domain.LoRCard;
 import com.github.brunosc.lor.domain.LoRChampion;
 import com.github.brunosc.lor.domain.LoRDeck;
 import com.github.brunosc.lor.domain.LoRRegion;
-import info.gamewise.lor.videos.domain.Channel;
+import info.gamewise.lor.videos.domain.json.Channel;
+import info.gamewise.lor.videos.port.out.GetChannelsPort;
 import info.gamewise.lor.videos.port.out.LatestYouTubeVideosUseCase;
 import info.gamewise.lor.videos.port.out.VideoIsInDatabaseUseCase;
-import info.gamewise.lor.videos.port.out.VideosNotInDatabaseUseCase;
+import info.gamewise.lor.videos.port.out.VideosNotInDatabasePort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -23,20 +23,21 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import static java.util.Collections.emptySet;
-import static java.util.stream.Collectors.toUnmodifiableList;
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
 @Service
-class VideosNotInDatabaseUseCaseService implements VideosNotInDatabaseUseCase {
+class VideosNotInDatabasePortService implements VideosNotInDatabasePort {
 
-    private static final Logger LOG = LoggerFactory.getLogger(VideosNotInDatabaseUseCaseService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(VideosNotInDatabasePortService.class);
 
     private final VideoIsInDatabaseUseCase videoIsInDatabaseUseCase;
     private final LatestYouTubeVideosUseCase latestVideosUseCase;
+    private final GetChannelsPort getChannelsPort;
 
-    VideosNotInDatabaseUseCaseService(VideoIsInDatabaseUseCase videoIsInDatabaseUseCase, LatestYouTubeVideosUseCase latestVideosUseCase) {
+    VideosNotInDatabasePortService(VideoIsInDatabaseUseCase videoIsInDatabaseUseCase, LatestYouTubeVideosUseCase latestVideosUseCase, GetChannelsPort getChannelsPort) {
         this.videoIsInDatabaseUseCase = videoIsInDatabaseUseCase;
         this.latestVideosUseCase = latestVideosUseCase;
+        this.getChannelsPort = getChannelsPort;
     }
 
     @Override
@@ -44,20 +45,21 @@ class VideosNotInDatabaseUseCaseService implements VideosNotInDatabaseUseCase {
         return latestVideos()
                 .stream()
                 .filter(this::isNotInDatabase)
-                .collect(toUnmodifiableList());
+                .toList();
     }
 
     private List<NewVideo> latestVideos() {
         return channelsStream()
                 .map(this::latestVideosByChannel)
-                .collect(toUnmodifiableList())
+                .toList()
                 .stream()
                 .flatMap(Collection::stream)
-                .collect(toUnmodifiableList());
+                .toList();
     }
 
     private Stream<Channel> channelsStream() {
-        return EnumSet.allOf(Channel.class).stream();
+        final var channels = getChannelsPort.getChannels();
+        return channels.stream();
     }
 
     private List<NewVideo> latestVideosByChannel(Channel channel) {
@@ -65,12 +67,11 @@ class VideosNotInDatabaseUseCaseService implements VideosNotInDatabaseUseCase {
         return latestVideos
                 .stream()
                 .map(video -> mapNewVideo(video, channel))
-                .filter(Objects::nonNull)
-                .collect(toUnmodifiableList());
+                .filter(Objects::nonNull).toList();
     }
 
     private NewVideo mapNewVideo(VideoDetails details, Channel channel) {
-        Optional<String> deckCode = channel.extractDeckCode(details.getDescription());
+        Optional<String> deckCode = DeckCodeExtractorService.extractDeckCode(details.getDescription());
 
         if (deckCode.isEmpty()) {
             LOG.error("There is no deck code for the video {} from Channel {}", details.getTitle(), channel);
@@ -90,7 +91,7 @@ class VideosNotInDatabaseUseCaseService implements VideosNotInDatabaseUseCase {
     }
 
     private boolean isNotInDatabase(NewVideo video) {
-        return !videoIsInDatabaseUseCase.isInDatabase(video.getDetails().getId());
+        return !videoIsInDatabaseUseCase.isInDatabase(video.details().getId());
     }
 
     private Set<LoRRegion> extractFaction(LoRDeck deck) {

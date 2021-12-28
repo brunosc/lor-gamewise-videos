@@ -1,7 +1,10 @@
 package info.gamewise.lor.videos.port.in;
 
-import info.gamewise.lor.videos.domain.AppSettings;
+import java.time.LocalDateTime;
 
 public interface GetAppSettingsUseCase {
     AppSettings getAppSettings();
+
+    record AppSettings(LocalDateTime updatedAt) {
+    }
 }

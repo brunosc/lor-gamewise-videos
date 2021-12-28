@@ -1,6 +1,5 @@
 package info.gamewise.lor.videos.entity;
 
-import com.github.brunosc.lor.domain.LoRChampion;
 import com.github.brunosc.lor.domain.LoRRegion;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
@@ -24,20 +23,20 @@ class VideoPredicate {
         QVideoJpaEntity q = new QVideoJpaEntity("videos");
         BooleanBuilder predicate = new BooleanBuilder();
 
-        if (!isEmpty(params.getRegions())) {
-            for (String region : params.getRegions()) {
+        if (!isEmpty(params.regions())) {
+            for (String region : params.regions()) {
                 predicate.and(q.regions.contains(LoRRegion.fromCode(region)));
             }
         }
 
-        if (!isEmpty(params.getChampions())) {
-            for (String champion : params.getChampions()) {
-                predicate.and(q.champions.contains(LoRChampion.fromCardCode(champion)));
+        if (!isEmpty(params.champions())) {
+            for (String champion : params.champions()) {
+                predicate.and(q.champions.contains(champion));
             }
         }
 
-        if (!isEmpty(params.getChannels())) {
-            predicate.and( q.channel.in(params.getChannels()) );
+        if (!isEmpty(params.channels())) {
+            predicate.and(q.channel.in(params.channels()));
         }
 
         return predicate;

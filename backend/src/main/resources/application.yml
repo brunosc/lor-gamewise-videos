@@ -12,3 +12,6 @@ lor:
       port: 8095
     scheduler:
       enabled: false
+  json-data:
+    channels-url: https://lor-gamewise-data.s3.amazonaws.com/channels.json
+    champions-url: https://lor-gamewise-data.s3.amazonaws.com/champions.json

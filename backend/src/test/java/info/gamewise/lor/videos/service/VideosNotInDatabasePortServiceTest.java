@@ -1,12 +1,12 @@
 package info.gamewise.lor.videos.service;
 
 import com.github.brunosc.fetcher.domain.VideoDetails;
-import info.gamewise.lor.videos.domain.Channel;
+import info.gamewise.lor.videos.domain.json.Channel;
+import info.gamewise.lor.videos.port.out.GetChannelsPort;
 import info.gamewise.lor.videos.port.out.LatestYouTubeVideosUseCase;
 import info.gamewise.lor.videos.port.out.VideoIsInDatabaseUseCase;
-import info.gamewise.lor.videos.port.out.VideosNotInDatabaseUseCase.NewVideo;
+import info.gamewise.lor.videos.port.out.VideosNotInDatabasePort.NewVideo;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.List;
 
@@ -15,21 +15,27 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
-class VideosNotInDatabaseUseCaseServiceTest {
+class VideosNotInDatabasePortServiceTest {
 
     private static final String ID_NOT_IN_DB_123 = "123";
     private static final String ID_IN_DB_456 = "456";
     private static final String ID_NOT_IN_DB_789 = "789";
 
+    private static final Channel MEGA_MOGWAI = new Channel("MEGA_MOGWAI", "MegaMogwai", "1");
+
     private final VideoIsInDatabaseUseCase videoIsInDatabaseUseCase =
-            Mockito.mock(VideoIsInDatabaseUseCase.class);
+            mock(VideoIsInDatabaseUseCase.class);
 
     private final LatestYouTubeVideosUseCase latestVideosUseCase =
-            Mockito.mock(LatestYouTubeVideosUseCase.class);
+            mock(LatestYouTubeVideosUseCase.class);
 
-    private final VideosNotInDatabaseUseCaseService service =
-            new VideosNotInDatabaseUseCaseService(videoIsInDatabaseUseCase, latestVideosUseCase);
+    private final GetChannelsPort getChannelsPort =
+            mock(GetChannelsPort.class);
+
+    private final VideosNotInDatabasePortService service =
+            new VideosNotInDatabasePortService(videoIsInDatabaseUseCase, latestVideosUseCase, getChannelsPort);
 
     @Test
     void shouldFetchNormally() {
@@ -38,8 +44,8 @@ class VideosNotInDatabaseUseCaseServiceTest {
 
         List<NewVideo> videos = service.fetchNewVideos();
 
-        NewVideo v123 = videos.stream().filter(v -> v.getDetails().getId().equals(ID_NOT_IN_DB_123)).findFirst().orElse(null);
-        NewVideo v789 = videos.stream().filter(v -> v.getDetails().getId().equals(ID_NOT_IN_DB_789)).findFirst().orElse(null);
+        NewVideo v123 = videos.stream().filter(v -> v.details().getId().equals(ID_NOT_IN_DB_123)).findFirst().orElse(null);
+        NewVideo v789 = videos.stream().filter(v -> v.details().getId().equals(ID_NOT_IN_DB_789)).findFirst().orElse(null);
 
         assertNotNull(v123);
         assertNotNull(v789);
@@ -52,8 +58,8 @@ class VideosNotInDatabaseUseCaseServiceTest {
 
         List<NewVideo> videos = service.fetchNewVideos();
 
-        NewVideo v123 = videos.stream().filter(v -> v.getDetails().getId().equals(ID_NOT_IN_DB_123)).findFirst().orElse(null);
-        NewVideo v789 = videos.stream().filter(v -> v.getDetails().getId().equals(ID_NOT_IN_DB_789)).findFirst().orElse(null);
+        NewVideo v123 = videos.stream().filter(v -> v.details().getId().equals(ID_NOT_IN_DB_123)).findFirst().orElse(null);
+        NewVideo v789 = videos.stream().filter(v -> v.details().getId().equals(ID_NOT_IN_DB_789)).findFirst().orElse(null);
 
         assertNull(v123);
         assertNotNull(v789);
@@ -62,15 +68,19 @@ class VideosNotInDatabaseUseCaseServiceTest {
     private void givenVideos_ValidDeckCode() {
         String deckCode = "CICACAQDAMBQCBJHGU4AGAYFAMCAMBABAMBA6KBXAMAQCAZFAEBAGBABAMCQEAIBAEBS4";
         List<VideoDetails> latestVideos = List.of(videoDetails(ID_NOT_IN_DB_123, deckCode), videoDetails(ID_IN_DB_456, deckCode), videoDetails(ID_NOT_IN_DB_789, deckCode));
-        given(latestVideosUseCase.latestVideosByChannel(eq(Channel.MEGA_MOGWAI)))
+        given(latestVideosUseCase.latestVideosByChannel(eq(MEGA_MOGWAI)))
                 .willReturn(latestVideos);
+        given(getChannelsPort.getChannels())
+                .willReturn(List.of(MEGA_MOGWAI));
     }
 
     private void givenVideos_InvalidDeckCode() {
         String deckCode = "CICACAQDAMBQCBJHGU4AGAYFAMCAMBABAMBA6KBXAMAQCAZFAEBAGBABAMCQEAIBAEBS4";
         List<VideoDetails> latestVideos = List.of(videoDetails(ID_NOT_IN_DB_123, "invalid-deck-code"), videoDetails(ID_IN_DB_456, deckCode), videoDetails(ID_NOT_IN_DB_789, deckCode));
-        given(latestVideosUseCase.latestVideosByChannel(eq(Channel.MEGA_MOGWAI)))
+        given(latestVideosUseCase.latestVideosByChannel(eq(MEGA_MOGWAI)))
                 .willReturn(latestVideos);
+        given(getChannelsPort.getChannels())
+                .willReturn(List.of(MEGA_MOGWAI));
     }
 
     private void givenVideoIsInDatabase() {
