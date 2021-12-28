@@ -1,7 +1,7 @@
 package info.gamewise.lor.videos.service;
 
 import com.github.brunosc.lor.domain.LoRRegion;
-import info.gamewise.lor.videos.domain.ChampionRecord;
+import info.gamewise.lor.videos.domain.json.Champion;
 import info.gamewise.lor.videos.domain.ChannelStatistics;
 import info.gamewise.lor.videos.domain.ChannelStatistics.NameCount;
 import info.gamewise.lor.videos.domain.LoRVideo;
@@ -53,7 +53,7 @@ class ChannelStatisticsService implements GetChannelStatisticsUseCase {
         return new ChannelStatistics(startedAt.toLocalDate(), championsCount, regionsCount);
     }
 
-    private long countVideosByChampion(List<LoRVideo> videos, ChampionRecord champion) {
+    private long countVideosByChampion(List<LoRVideo> videos, Champion champion) {
         Predicate<LoRVideo> predicate = video -> video.champions()
                 .stream()
                 .anyMatch(videoChampion -> videoChampion.getCode().equals(champion.code()));
@@ -73,7 +73,7 @@ class ChannelStatisticsService implements GetChannelStatisticsUseCase {
         return videos.stream().filter(predicate).count();
     }
 
-    private List<ChampionRecord> champions() {
+    private List<Champion> champions() {
         return getChampionsPort.getChampions();
     }
 

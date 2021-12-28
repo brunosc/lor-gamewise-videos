@@ -1,9 +1,9 @@
 package info.gamewise.lor.videos.service;
 
-import info.gamewise.lor.videos.domain.ChampionRecord;
+import info.gamewise.lor.videos.domain.json.Champion;
 import info.gamewise.lor.videos.domain.ChannelStatistics;
 import info.gamewise.lor.videos.domain.ChannelStatistics.NameCount;
-import info.gamewise.lor.videos.domain.LoRChannel;
+import info.gamewise.lor.videos.domain.json.Channel;
 import info.gamewise.lor.videos.domain.LoRVideo;
 import info.gamewise.lor.videos.port.out.GetChampionsPort;
 import info.gamewise.lor.videos.port.out.GetVideosByChannelPort;
@@ -30,19 +30,19 @@ import static org.mockito.Mockito.mock;
 
 class ChannelStatisticsServiceTest {
 
-    private static final LoRChannel MEGA_MOGWAI = new LoRChannel("MEGA_MOGWAI", "MegaMogwai", "1");
-    private static final ChampionRecord ELISE = new ChampionRecord("1", "ELISE", "Elise");
-    private static final ChampionRecord LEE_SIN = new ChampionRecord("2", "LEE_SIN", "Lee Sin");
-    private static final ChampionRecord RIVEN = new ChampionRecord("3", "RIVEN", "Riven");
-    private static final ChampionRecord YASUO = new ChampionRecord("4", "YASUO", "Yasuo");
-    private static final ChampionRecord SWAIN = new ChampionRecord("5", "SWAIN", "Swain");
-    private static final ChampionRecord ZED = new ChampionRecord("6", "ZED", "Zed");
-    private static final ChampionRecord SIVIR = new ChampionRecord("7", "SIVIR", "Sivir");
-    private static final ChampionRecord RENEKTON = new ChampionRecord("8", "RENEKTON", "Renekton");
-    private static final ChampionRecord KINDRED = new ChampionRecord("9", "KINDRED", "Kindred");
-    private static final ChampionRecord ASHE = new ChampionRecord("10", "ASHE", "Ashe");
-    private static final ChampionRecord EZREAL = new ChampionRecord("11", "EZREAL", "Ezreal");
-    private static final ChampionRecord MALPHITE = new ChampionRecord("12", "MALPHITE", "Malphite");
+    private static final Channel MEGA_MOGWAI = new Channel("MEGA_MOGWAI", "MegaMogwai", "1");
+    private static final Champion ELISE = new Champion("1", "ELISE", "Elise");
+    private static final Champion LEE_SIN = new Champion("2", "LEE_SIN", "Lee Sin");
+    private static final Champion RIVEN = new Champion("3", "RIVEN", "Riven");
+    private static final Champion YASUO = new Champion("4", "YASUO", "Yasuo");
+    private static final Champion SWAIN = new Champion("5", "SWAIN", "Swain");
+    private static final Champion ZED = new Champion("6", "ZED", "Zed");
+    private static final Champion SIVIR = new Champion("7", "SIVIR", "Sivir");
+    private static final Champion RENEKTON = new Champion("8", "RENEKTON", "Renekton");
+    private static final Champion KINDRED = new Champion("9", "KINDRED", "Kindred");
+    private static final Champion ASHE = new Champion("10", "ASHE", "Ashe");
+    private static final Champion EZREAL = new Champion("11", "EZREAL", "Ezreal");
+    private static final Champion MALPHITE = new Champion("12", "MALPHITE", "Malphite");
 
     private final GetVideosByChannelPort port =
             mock(GetVideosByChannelPort.class);
@@ -55,7 +55,7 @@ class ChannelStatisticsServiceTest {
 
     @Test
     void shouldCalculateStatisticsByChannel() {
-        LoRChannel channel = MEGA_MOGWAI;
+        Channel channel = MEGA_MOGWAI;
         given(port.videosByChannel(eq(channel.code()))).willReturn(videos(channel));
         given(getChampionsPort.getChampions()).willReturn(champions());
 
@@ -74,7 +74,7 @@ class ChannelStatisticsServiceTest {
         assertEquals(mostPopularRegion.count(), 4L);
     }
 
-    private List<LoRVideo> videos(LoRChannel channel) {
+    private List<LoRVideo> videos(Channel channel) {
         return List.of(
                 newLoRVideo(channel, Set.of(ELISE), Set.of(NOXUS, SHADOW_ILES), 1),
                 newLoRVideo(channel, Set.of(LEE_SIN, RIVEN), Set.of(NOXUS, IONIA), 2),
@@ -87,7 +87,7 @@ class ChannelStatisticsServiceTest {
         );
     }
 
-    private List<ChampionRecord> champions() {
+    private List<Champion> champions() {
         return List.of(ELISE, LEE_SIN, RIVEN, YASUO, SWAIN, ZED, SIVIR, RENEKTON, KINDRED, ASHE, EZREAL, MALPHITE);
     }
 

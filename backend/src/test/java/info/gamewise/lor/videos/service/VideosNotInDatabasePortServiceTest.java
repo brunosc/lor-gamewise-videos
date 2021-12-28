@@ -1,14 +1,12 @@
 package info.gamewise.lor.videos.service;
 
 import com.github.brunosc.fetcher.domain.VideoDetails;
-import info.gamewise.lor.videos.domain.Channel;
-import info.gamewise.lor.videos.domain.LoRChannel;
+import info.gamewise.lor.videos.domain.json.Channel;
 import info.gamewise.lor.videos.port.out.GetChannelsPort;
 import info.gamewise.lor.videos.port.out.LatestYouTubeVideosUseCase;
 import info.gamewise.lor.videos.port.out.VideoIsInDatabaseUseCase;
 import info.gamewise.lor.videos.port.out.VideosNotInDatabasePort.NewVideo;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.List;
 
@@ -25,7 +23,7 @@ class VideosNotInDatabasePortServiceTest {
     private static final String ID_IN_DB_456 = "456";
     private static final String ID_NOT_IN_DB_789 = "789";
 
-    private static final LoRChannel MEGA_MOGWAI = new LoRChannel("MEGA_MOGWAI", "MegaMogwai", "1");
+    private static final Channel MEGA_MOGWAI = new Channel("MEGA_MOGWAI", "MegaMogwai", "1");
 
     private final VideoIsInDatabaseUseCase videoIsInDatabaseUseCase =
             mock(VideoIsInDatabaseUseCase.class);

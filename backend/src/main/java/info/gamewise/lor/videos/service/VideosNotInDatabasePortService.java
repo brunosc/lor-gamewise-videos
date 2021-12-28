@@ -6,7 +6,7 @@ import com.github.brunosc.lor.domain.LoRCard;
 import com.github.brunosc.lor.domain.LoRChampion;
 import com.github.brunosc.lor.domain.LoRDeck;
 import com.github.brunosc.lor.domain.LoRRegion;
-import info.gamewise.lor.videos.domain.LoRChannel;
+import info.gamewise.lor.videos.domain.json.Channel;
 import info.gamewise.lor.videos.port.out.GetChannelsPort;
 import info.gamewise.lor.videos.port.out.LatestYouTubeVideosUseCase;
 import info.gamewise.lor.videos.port.out.VideoIsInDatabaseUseCase;
@@ -57,12 +57,12 @@ class VideosNotInDatabasePortService implements VideosNotInDatabasePort {
                 .toList();
     }
 
-    private Stream<LoRChannel> channelsStream() {
+    private Stream<Channel> channelsStream() {
         final var channels = getChannelsPort.getChannels();
         return channels.stream();
     }
 
-    private List<NewVideo> latestVideosByChannel(LoRChannel channel) {
+    private List<NewVideo> latestVideosByChannel(Channel channel) {
         List<VideoDetails> latestVideos = latestVideosUseCase.latestVideosByChannel(channel);
         return latestVideos
                 .stream()
@@ -70,7 +70,7 @@ class VideosNotInDatabasePortService implements VideosNotInDatabasePort {
                 .filter(Objects::nonNull).toList();
     }
 
-    private NewVideo mapNewVideo(VideoDetails details, LoRChannel channel) {
+    private NewVideo mapNewVideo(VideoDetails details, Channel channel) {
         Optional<String> deckCode = DeckCodeExtractorService.extractDeckCode(details.getDescription());
 
         if (deckCode.isEmpty()) {

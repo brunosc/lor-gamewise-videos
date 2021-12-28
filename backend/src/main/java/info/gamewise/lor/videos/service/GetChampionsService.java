@@ -1,8 +1,10 @@
 package info.gamewise.lor.videos.service;
 
 import info.gamewise.lor.videos.config.LoRCacheConfig;
-import info.gamewise.lor.videos.domain.ChampionRecord;
+import info.gamewise.lor.videos.domain.json.Champion;
 import info.gamewise.lor.videos.port.out.GetChampionsPort;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -23,21 +25,24 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 @Service
 class GetChampionsService implements GetChampionsPort {
 
-    private static final String URL = "https://api.jsonbin.io/b/61c1e160435982298611f9d8";
-    private static final AtomicReference<List<ChampionRecord>> CHAMPIONS = new AtomicReference<>();
+    private static final Logger LOG = LoggerFactory.getLogger(GetChampionsService.class);
+    private static final String URL = "https://lor-gamewise-data.s3.amazonaws.com/champions.json";
+    private static final AtomicReference<List<Champion>> CHAMPIONS = new AtomicReference<>();
 
     @Override
     @Cacheable(LoRCacheConfig.CHAMPIONS)
-    public List<ChampionRecord> getChampions() {
+    public List<Champion> getChampions() {
+        LOG.info("Fetching champions from {}", URL);
+
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<List<ChampionRecord>> response = restTemplate.exchange(URL, GET, httpEntity(), new ParameterizedTypeReference<>() {});
+        ResponseEntity<List<Champion>> response = restTemplate.exchange(URL, GET, httpEntity(), new ParameterizedTypeReference<>() {});
 
         CHAMPIONS.set(response.getBody());
         return CHAMPIONS.get();
     }
 
     @Override
-    public Optional<ChampionRecord> getChampionByName(String champion) {
+    public Optional<Champion> getChampionByName(String champion) {
         if (isEmpty(CHAMPIONS.get())) {
             getChampions();
         }

@@ -5,7 +5,9 @@ import com.github.brunosc.fetcher.domain.VideoThumbnails.ThumbnailItem;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-public record LoRVideo(String url, String title, String deckCode,
+public record LoRVideo(String url,
+                       String title,
+                       String deckCode,
                        VideoChannel channel,
                        Set<VideoChampion> champions,
                        Set<VideoRegion> regions,

@@ -1,8 +1,10 @@
 package info.gamewise.lor.videos.service;
 
 import info.gamewise.lor.videos.config.LoRCacheConfig;
-import info.gamewise.lor.videos.domain.LoRChannel;
+import info.gamewise.lor.videos.domain.json.Channel;
 import info.gamewise.lor.videos.port.out.GetChannelsPort;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -23,21 +25,24 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 @Service
 class GetChannelsService implements GetChannelsPort {
 
-    private static final String URL = "https://api.jsonbin.io/b/61bc3d49bccca038dfab2775/3";
-    private static final AtomicReference<List<LoRChannel>> CHANNELS = new AtomicReference<>();
+    private static final Logger LOG = LoggerFactory.getLogger(GetChannelsService.class);
+    private static final String URL = "https://lor-gamewise-data.s3.amazonaws.com/channels.json";
+    private static final AtomicReference<List<Channel>> CHANNELS = new AtomicReference<>();
 
     @Override
     @Cacheable(LoRCacheConfig.CHANNELS)
-    public List<LoRChannel> getChannels() {
+    public List<Channel> getChannels() {
+        LOG.info("Fetching channels from {}", URL);
+
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<List<LoRChannel>> response = restTemplate.exchange(URL, GET, httpEntity(), new ParameterizedTypeReference<>() {});
+        ResponseEntity<List<Channel>> response = restTemplate.exchange(URL, GET, httpEntity(), new ParameterizedTypeReference<>() {});
 
         CHANNELS.set(response.getBody());
         return CHANNELS.get();
     }
 
     @Override
-    public Optional<LoRChannel> getChannelByCode(String channelCode) {
+    public Optional<Channel> getChannelByCode(String channelCode) {
         if (isEmpty(CHANNELS.get())) {
             getChannels();
         }

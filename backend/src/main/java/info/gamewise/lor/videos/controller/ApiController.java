@@ -1,9 +1,9 @@
 package info.gamewise.lor.videos.controller;
 
 import info.gamewise.lor.videos.config.ClearCache;
-import info.gamewise.lor.videos.domain.ChampionRecord;
+import info.gamewise.lor.videos.domain.json.Champion;
 import info.gamewise.lor.videos.domain.ChannelStatistics;
-import info.gamewise.lor.videos.domain.LoRChannel;
+import info.gamewise.lor.videos.domain.json.Channel;
 import info.gamewise.lor.videos.domain.LoRVideo;
 import info.gamewise.lor.videos.domain.LoRVideoFilter;
 import info.gamewise.lor.videos.port.in.GetAppSettingsUseCase;
@@ -66,12 +66,12 @@ class ApiController {
     }
 
     @GetMapping("channels")
-    ResponseEntity<List<LoRChannel>> getChannels() {
+    ResponseEntity<List<Channel>> getChannels() {
         return ResponseEntity.ok(getChannelsPort.getChannels());
     }
 
     @GetMapping("champions")
-    ResponseEntity<List<ChampionRecord>> getChampions() {
+    ResponseEntity<List<Champion>> getChampions() {
         return ResponseEntity.ok(getChampionsPort.getChampions());
     }
 
