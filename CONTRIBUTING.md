@@ -61,6 +61,8 @@ A good pull request
         
       - **`video`**: contains the components related to the videos.
     
+  - **`mixins`**: contains the mixins.
+  
   - **`service`**: contains the service responsible to call the backend.
     
   - **`store`**: contains the vuex modules. 
@@ -79,13 +81,13 @@ Considering `info.gamewise.lor.videos`
 - **`domain`** contains the domain classes
   
 - **`entity`** contains the classes related to the database. They **MUST** be package private.
-  
-- **`fetcher`** contains the logic to fetch videos from YouTube.
-  
-- **`service`** contains the implementation of the uses cases.
-  
+
 - **`port.in`** use cases classes to handle some business logic
-  
+
 - **`port.out`** these interfaces are designed to fit the needs of the use cases
+
+- **`scheduler`** contains the logic to fetch videos from YouTube.
+
+- **`service`** contains the implementation of the uses cases.
 
 As you may notice, I am using a Use Case interface for each functionality. Also, the JPA classes must be not exposed out of the `entity` package.
