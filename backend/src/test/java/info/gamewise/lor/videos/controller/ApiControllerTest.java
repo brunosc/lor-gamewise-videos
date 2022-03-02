@@ -1,8 +1,8 @@
 package info.gamewise.lor.videos.controller;
 
-import com.github.brunosc.lor.domain.LoRChampion;
 import com.github.brunosc.lor.domain.LoRRegion;
 import info.gamewise.lor.videos.AbstractIntegrationTest;
+import info.gamewise.lor.videos.domain.json.Champion;
 import info.gamewise.lor.videos.domain.json.Channel;
 import info.gamewise.lor.videos.port.out.SaveVideoUseCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,24 +13,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import java.util.Set;
 import java.util.UUID;
 
-import static com.github.brunosc.lor.domain.LoRChampion.ANIVIA;
-import static com.github.brunosc.lor.domain.LoRChampion.AURELION_SOL;
-import static com.github.brunosc.lor.domain.LoRChampion.AZIR;
-import static com.github.brunosc.lor.domain.LoRChampion.ELISE;
-import static com.github.brunosc.lor.domain.LoRChampion.EZREAL;
-import static com.github.brunosc.lor.domain.LoRChampion.GAREN;
-import static com.github.brunosc.lor.domain.LoRChampion.HECARIM;
-import static com.github.brunosc.lor.domain.LoRChampion.IRELIA;
-import static com.github.brunosc.lor.domain.LoRChampion.JARVAN_IV;
-import static com.github.brunosc.lor.domain.LoRChampion.KALISTA;
-import static com.github.brunosc.lor.domain.LoRChampion.LISSANDRA;
-import static com.github.brunosc.lor.domain.LoRChampion.LUCIAN;
-import static com.github.brunosc.lor.domain.LoRChampion.MALPHITE;
-import static com.github.brunosc.lor.domain.LoRChampion.RENEKTON;
-import static com.github.brunosc.lor.domain.LoRChampion.SHEN;
-import static com.github.brunosc.lor.domain.LoRChampion.SWAIN;
-import static com.github.brunosc.lor.domain.LoRChampion.TALIYAH;
-import static com.github.brunosc.lor.domain.LoRChampion.TRUNDLE;
 import static com.github.brunosc.lor.domain.LoRRegion.DEMACIA;
 import static com.github.brunosc.lor.domain.LoRRegion.FRELJORD;
 import static com.github.brunosc.lor.domain.LoRRegion.IONIA;
@@ -39,7 +21,7 @@ import static com.github.brunosc.lor.domain.LoRRegion.NOXUS;
 import static com.github.brunosc.lor.domain.LoRRegion.PILTOVER_AND_ZAUN;
 import static com.github.brunosc.lor.domain.LoRRegion.SHADOW_ILES;
 import static com.github.brunosc.lor.domain.LoRRegion.SHURIMA;
-import static info.gamewise.lor.videos.DataLoader.newVideo;
+import static info.gamewise.lor.videos.DataLoader.*;
 import static java.util.Set.of;
 
 class ApiControllerTest extends AbstractIntegrationTest {
@@ -51,10 +33,6 @@ class ApiControllerTest extends AbstractIntegrationTest {
 
     @Autowired
     private SaveVideoUseCase saveVideoUseCase;
-
-    private static final Channel MEGA_MOGWAI = new Channel("MEGA_MOGWAI", "MegaMogwai", "1");
-    private static final Channel ALANZQ = new Channel("ALANZQ", "Alanzq", "2");
-    private static final Channel SILVERFUSE = new Channel("SILVERFUSE", "Silverfuse", "2");
 
     @BeforeEach
     void init() {
@@ -73,7 +51,7 @@ class ApiControllerTest extends AbstractIntegrationTest {
         saveNewVideo(11, SILVERFUSE, of(DEMACIA, MOUNT_TARGON), of(MALPHITE, AURELION_SOL, GAREN));
     }
 
-    private void saveNewVideo(int day, Channel channel, Set<LoRRegion> regions, Set<LoRChampion> champions) {
+    private void saveNewVideo(int day, Channel channel, Set<LoRRegion> regions, Set<Champion> champions) {
         saveVideoUseCase.save(newVideo(day, UUID.randomUUID().toString(), channel, regions, champions));
     }
 

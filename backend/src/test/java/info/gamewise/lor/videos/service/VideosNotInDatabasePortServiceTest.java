@@ -1,7 +1,9 @@
 package info.gamewise.lor.videos.service;
 
 import com.github.brunosc.fetcher.domain.VideoDetails;
+import info.gamewise.lor.videos.DataLoader;
 import info.gamewise.lor.videos.domain.json.Channel;
+import info.gamewise.lor.videos.port.out.GetChampionsPort;
 import info.gamewise.lor.videos.port.out.GetChannelsPort;
 import info.gamewise.lor.videos.port.out.LatestYouTubeVideosUseCase;
 import info.gamewise.lor.videos.port.out.VideoIsInDatabaseUseCase;
@@ -34,11 +36,15 @@ class VideosNotInDatabasePortServiceTest {
     private final GetChannelsPort getChannelsPort =
             mock(GetChannelsPort.class);
 
+    private final GetChampionsPort getChampionsPort =
+            mock(GetChampionsPort.class);
+
     private final VideosNotInDatabasePortService service =
-            new VideosNotInDatabasePortService(videoIsInDatabaseUseCase, latestVideosUseCase, getChannelsPort);
+            new VideosNotInDatabasePortService(videoIsInDatabaseUseCase, latestVideosUseCase, getChannelsPort, getChampionsPort);
 
     @Test
     void shouldFetchNormally() {
+        givenChampions();
         givenVideos_ValidDeckCode();
         givenVideoIsInDatabase();
 
@@ -53,6 +59,7 @@ class VideosNotInDatabasePortServiceTest {
 
     @Test
     void shouldNotFetchInvalidDeckCode() {
+        givenChampions();
         givenVideos_InvalidDeckCode();
         givenVideoIsInDatabase();
 
@@ -87,6 +94,11 @@ class VideosNotInDatabasePortServiceTest {
         given(videoIsInDatabaseUseCase.isInDatabase(eq(ID_NOT_IN_DB_123))).willReturn(Boolean.FALSE);
         given(videoIsInDatabaseUseCase.isInDatabase(eq(ID_IN_DB_456))).willReturn(Boolean.TRUE);
         given(videoIsInDatabaseUseCase.isInDatabase(eq(ID_NOT_IN_DB_789))).willReturn(Boolean.FALSE);
+    }
+
+    private void givenChampions() {
+        given(getChampionsPort.getChampions())
+                .willReturn(List.of(DataLoader.ELISE));
     }
 
 }

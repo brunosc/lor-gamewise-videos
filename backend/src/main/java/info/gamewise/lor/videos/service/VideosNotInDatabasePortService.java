@@ -3,10 +3,11 @@ package info.gamewise.lor.videos.service;
 import com.github.brunosc.fetcher.domain.VideoDetails;
 import com.github.brunosc.lor.DeckCodeParser;
 import com.github.brunosc.lor.domain.LoRCard;
-import com.github.brunosc.lor.domain.LoRChampion;
 import com.github.brunosc.lor.domain.LoRDeck;
 import com.github.brunosc.lor.domain.LoRRegion;
+import info.gamewise.lor.videos.domain.json.Champion;
 import info.gamewise.lor.videos.domain.json.Channel;
+import info.gamewise.lor.videos.port.out.GetChampionsPort;
 import info.gamewise.lor.videos.port.out.GetChannelsPort;
 import info.gamewise.lor.videos.port.out.LatestYouTubeVideosUseCase;
 import info.gamewise.lor.videos.port.out.VideoIsInDatabaseUseCase;
@@ -23,6 +24,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import static java.util.Collections.emptySet;
+import static java.util.stream.Collectors.toSet;
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
 @Service
@@ -33,11 +35,13 @@ class VideosNotInDatabasePortService implements VideosNotInDatabasePort {
     private final VideoIsInDatabaseUseCase videoIsInDatabaseUseCase;
     private final LatestYouTubeVideosUseCase latestVideosUseCase;
     private final GetChannelsPort getChannelsPort;
+    private final GetChampionsPort getChampionsPort;
 
-    VideosNotInDatabasePortService(VideoIsInDatabaseUseCase videoIsInDatabaseUseCase, LatestYouTubeVideosUseCase latestVideosUseCase, GetChannelsPort getChannelsPort) {
+    VideosNotInDatabasePortService(VideoIsInDatabaseUseCase videoIsInDatabaseUseCase, LatestYouTubeVideosUseCase latestVideosUseCase, GetChannelsPort getChannelsPort, GetChampionsPort getChampionsPort) {
         this.videoIsInDatabaseUseCase = videoIsInDatabaseUseCase;
         this.latestVideosUseCase = latestVideosUseCase;
         this.getChannelsPort = getChannelsPort;
+        this.getChampionsPort = getChampionsPort;
     }
 
     @Override
@@ -81,13 +85,32 @@ class VideosNotInDatabasePortService implements VideosNotInDatabasePort {
         try {
             Optional<LoRDeck> deck = deckCode.map(DeckCodeParser::decode);
             Set<LoRRegion> regions = deck.map(this::extractFaction).orElse(emptySet());
-            Set<LoRChampion> champions = deck.map(LoRDeck::getChampions).orElse(emptySet());
+            Set<Champion> champions = deck.map(this::extractChampionsFromDeck).orElse(emptySet());
 
             return new NewVideo(deckCode.get(), details, channel, regions, champions);
         } catch (Exception e) {
             LOG.error("There was an error to map the deck: {}", e.getMessage());
             return null;
         }
+    }
+
+    private Set<Champion> extractChampionsFromDeck(LoRDeck deck) {
+        return deck.getCards().keySet()
+                .stream()
+                .filter(Objects::nonNull)
+                .map(LoRCard::getCardCode)
+                .map(this::mapChampion)
+                .filter(Objects::nonNull)
+                .collect(toSet());
+    }
+
+    private Champion mapChampion(String cardCode) {
+        return getChampionsPort
+                .getChampions()
+                .stream()
+                .filter(champion -> cardCode.equals(champion.id()))
+                .findFirst()
+                .orElse(null);
     }
 
     private boolean isNotInDatabase(NewVideo video) {

@@ -2,6 +2,7 @@ package info.gamewise.lor.videos.entity;
 
 import com.github.brunosc.fetcher.domain.VideoThumbnails;
 import com.github.brunosc.lor.domain.LoRRegion;
+import info.gamewise.lor.videos.domain.json.Champion;
 import info.gamewise.lor.videos.port.out.VideosNotInDatabasePort.NewVideo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -43,7 +44,7 @@ class VideoJpaEntity {
         this.thumbnails = newVideo.details().getThumbnails();
         this.channel = newVideo.channel().code();
         this.regions = newVideo.regions();
-        this.champions = newVideo.champions().stream().map(Enum::name).collect(toUnmodifiableSet());
+        this.champions = newVideo.champions().stream().map(Champion::code).collect(toUnmodifiableSet());
     }
 
     public String getId() {
