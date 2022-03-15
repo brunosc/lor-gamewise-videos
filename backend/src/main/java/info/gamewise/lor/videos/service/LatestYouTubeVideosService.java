@@ -24,10 +24,24 @@ class LatestYouTubeVideosService implements LatestYouTubeVideosUseCase {
     private static final String CLIENT_SECRETS = "/client_secret.json";
     private static final Logger LOG = LoggerFactory.getLogger(LatestYouTubeVideosService.class);
 
-    private final YouTubeFetcher youTubeFetcher;
+    private final LocalServerProperties localServerProperties;
 
-    LatestYouTubeVideosService(LocalServerProperties localServerProperties) throws GeneralSecurityException, IOException {
-        this.youTubeFetcher = buildYouTubeFetcher(localServerProperties);
+    LatestYouTubeVideosService(LocalServerProperties localServerProperties) {
+        this.localServerProperties = localServerProperties;
+    }
+
+    @Override
+    public List<VideoDetails> latestVideosByChannel(Channel channel) {
+        try {
+            YouTubeFetcher youTubeFetcher = buildYouTubeFetcher(localServerProperties);
+            return youTubeFetcher.fetchByPlaylistId(channel.playlistId(), VIDEOS_BY_CHANNEL);
+        } catch (IOException e) {
+            LOG.error("There was an error to fetch the latest videos.", e);
+            return emptyList();
+        } catch (GeneralSecurityException e) {
+            LOG.error("Security Exception fetching YouTube videos", e);
+            return emptyList();
+        }
     }
 
     private YouTubeFetcher buildYouTubeFetcher(LocalServerProperties localServerProperties) throws GeneralSecurityException, IOException {
@@ -37,15 +51,5 @@ class LatestYouTubeVideosService implements LatestYouTubeVideosUseCase {
                 .withPort(localServerProperties.getPort())
                 .build();
         return new YouTubeFetcher(params);
-    }
-
-    @Override
-    public List<VideoDetails> latestVideosByChannel(Channel channel) {
-        try {
-            return youTubeFetcher.fetchByPlaylistId(channel.playlistId(), VIDEOS_BY_CHANNEL);
-        } catch (IOException e) {
-            LOG.error("There was an error to fetch the latest videos.", e);
-            return emptyList();
-        }
     }
 }
