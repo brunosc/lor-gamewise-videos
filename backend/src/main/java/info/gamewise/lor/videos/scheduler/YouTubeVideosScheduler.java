@@ -29,7 +29,7 @@ public class YouTubeVideosScheduler {
     @Scheduled(fixedRate = IMPORT_RATE)
     void fetch() {
         final var latestVideos = videosNotInDatabaseUseCase.fetchNewVideos();
-        latestVideos.forEach(saveVideoUseCase::save);
+        saveVideoUseCase.save(latestVideos);
         UPDATED_AT.set(LocalDateTime.now(ZoneOffset.UTC));
     }
 

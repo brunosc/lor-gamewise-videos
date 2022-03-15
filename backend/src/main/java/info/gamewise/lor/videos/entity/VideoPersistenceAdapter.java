@@ -6,6 +6,7 @@ import info.gamewise.lor.videos.port.out.GetVideosByChannelPort;
 import info.gamewise.lor.videos.port.out.SaveVideoUseCase;
 import info.gamewise.lor.videos.port.out.VideoIsInDatabaseUseCase;
 import info.gamewise.lor.videos.port.out.VideosNotInDatabasePort;
+import info.gamewise.lor.videos.port.out.VideosNotInDatabasePort.NewVideo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -38,8 +39,9 @@ class VideoPersistenceAdapter implements GetVideosUseCase, VideoIsInDatabaseUseC
     }
 
     @Override
-    public void save(VideosNotInDatabasePort.NewVideo newVideo) {
-        repository.save(new VideoJpaEntity(newVideo));
+    public void save(List<NewVideo> newVideos) {
+        final var videoEntities = newVideos.stream().map(VideoJpaEntity::new).toList();
+        repository.saveAll(videoEntities);
     }
 
     @Override

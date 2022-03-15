@@ -1,17 +1,13 @@
 package info.gamewise.lor.videos.controller;
 
-import com.github.brunosc.lor.domain.LoRRegion;
 import info.gamewise.lor.videos.AbstractIntegrationTest;
-import info.gamewise.lor.videos.domain.json.Champion;
-import info.gamewise.lor.videos.domain.json.Channel;
 import info.gamewise.lor.videos.port.out.SaveVideoUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import java.util.Set;
-import java.util.UUID;
+import java.util.List;
 
 import static com.github.brunosc.lor.domain.LoRRegion.DEMACIA;
 import static com.github.brunosc.lor.domain.LoRRegion.FRELJORD;
@@ -21,8 +17,30 @@ import static com.github.brunosc.lor.domain.LoRRegion.NOXUS;
 import static com.github.brunosc.lor.domain.LoRRegion.PILTOVER_AND_ZAUN;
 import static com.github.brunosc.lor.domain.LoRRegion.SHADOW_ILES;
 import static com.github.brunosc.lor.domain.LoRRegion.SHURIMA;
-import static info.gamewise.lor.videos.DataLoader.*;
+import static info.gamewise.lor.videos.DataLoader.ALANZQ;
+import static info.gamewise.lor.videos.DataLoader.ANIVIA;
+import static info.gamewise.lor.videos.DataLoader.AURELION_SOL;
+import static info.gamewise.lor.videos.DataLoader.AZIR;
+import static info.gamewise.lor.videos.DataLoader.ELISE;
+import static info.gamewise.lor.videos.DataLoader.EZREAL;
+import static info.gamewise.lor.videos.DataLoader.GAREN;
+import static info.gamewise.lor.videos.DataLoader.HECARIM;
+import static info.gamewise.lor.videos.DataLoader.IRELIA;
+import static info.gamewise.lor.videos.DataLoader.JARVAN_IV;
+import static info.gamewise.lor.videos.DataLoader.KALISTA;
+import static info.gamewise.lor.videos.DataLoader.LISSANDRA;
+import static info.gamewise.lor.videos.DataLoader.LUCIAN;
+import static info.gamewise.lor.videos.DataLoader.MALPHITE;
+import static info.gamewise.lor.videos.DataLoader.MEGA_MOGWAI;
+import static info.gamewise.lor.videos.DataLoader.RENEKTON;
+import static info.gamewise.lor.videos.DataLoader.SHEN;
+import static info.gamewise.lor.videos.DataLoader.SILVERFUSE;
+import static info.gamewise.lor.videos.DataLoader.SWAIN;
+import static info.gamewise.lor.videos.DataLoader.TALIYAH;
+import static info.gamewise.lor.videos.DataLoader.TRUNDLE;
+import static info.gamewise.lor.videos.DataLoader.newVideo;
 import static java.util.Set.of;
+import static java.util.UUID.randomUUID;
 
 class ApiControllerTest extends AbstractIntegrationTest {
 
@@ -36,23 +54,23 @@ class ApiControllerTest extends AbstractIntegrationTest {
 
     @BeforeEach
     void init() {
-        saveNewVideo(1, MEGA_MOGWAI, of(PILTOVER_AND_ZAUN, SHURIMA), of(EZREAL, RENEKTON));
-        saveNewVideo(2, MEGA_MOGWAI, of(DEMACIA, SHADOW_ILES), of(LUCIAN, HECARIM));
-        saveNewVideo(3, MEGA_MOGWAI, of(FRELJORD, NOXUS), of(SWAIN, LISSANDRA));
-        saveNewVideo(4, MEGA_MOGWAI, of(DEMACIA, IONIA), of(SHEN, JARVAN_IV));
+        final var videos = List.of(
+                newVideo(1, randomUUID().toString(), MEGA_MOGWAI, of(PILTOVER_AND_ZAUN, SHURIMA), of(EZREAL, RENEKTON)),
+                newVideo(2, randomUUID().toString(), MEGA_MOGWAI, of(DEMACIA, SHADOW_ILES), of(LUCIAN, HECARIM)),
+                newVideo(3, randomUUID().toString(), MEGA_MOGWAI, of(FRELJORD, NOXUS), of(SWAIN, LISSANDRA)),
+                newVideo(4, randomUUID().toString(), MEGA_MOGWAI, of(DEMACIA, IONIA), of(SHEN, JARVAN_IV)),
 
-        saveNewVideo(5, ALANZQ, of(FRELJORD, SHADOW_ILES), of(TRUNDLE, LISSANDRA));
-        saveNewVideo(6, ALANZQ, of(IONIA, SHURIMA), of(IRELIA, AZIR));
+                newVideo(5, randomUUID().toString(), ALANZQ, of(FRELJORD, SHADOW_ILES), of(TRUNDLE, LISSANDRA)),
+                newVideo(6, randomUUID().toString(), ALANZQ, of(IONIA, SHURIMA), of(IRELIA, AZIR)),
 
-        saveNewVideo(7, SILVERFUSE, of(FRELJORD, SHADOW_ILES), of(ANIVIA));
-        saveNewVideo(8, SILVERFUSE, of(SHURIMA, SHADOW_ILES), of(ELISE, KALISTA));
-        saveNewVideo(9, SILVERFUSE, of(FRELJORD, PILTOVER_AND_ZAUN), of(TRUNDLE));
-        saveNewVideo(10, SILVERFUSE, of(FRELJORD, SHURIMA), of(TALIYAH, LISSANDRA));
-        saveNewVideo(11, SILVERFUSE, of(DEMACIA, MOUNT_TARGON), of(MALPHITE, AURELION_SOL, GAREN));
-    }
+                newVideo(7, randomUUID().toString(), SILVERFUSE, of(FRELJORD, SHADOW_ILES), of(ANIVIA)),
+                newVideo(8, randomUUID().toString(), SILVERFUSE, of(SHURIMA, SHADOW_ILES), of(ELISE, KALISTA)),
+                newVideo(9, randomUUID().toString(), SILVERFUSE, of(FRELJORD, PILTOVER_AND_ZAUN), of(TRUNDLE)),
+                newVideo(10, randomUUID().toString(), SILVERFUSE, of(FRELJORD, SHURIMA), of(TALIYAH, LISSANDRA)),
+                newVideo(11, randomUUID().toString(), SILVERFUSE, of(DEMACIA, MOUNT_TARGON), of(MALPHITE, AURELION_SOL, GAREN))
+        );
 
-    private void saveNewVideo(int day, Channel channel, Set<LoRRegion> regions, Set<Champion> champions) {
-        saveVideoUseCase.save(newVideo(day, UUID.randomUUID().toString(), channel, regions, champions));
+        saveVideoUseCase.save(videos);
     }
 
     @Test
@@ -67,7 +85,6 @@ class ApiControllerTest extends AbstractIntegrationTest {
                 .jsonPath("$.content[0].channel.code").isEqualTo(SILVERFUSE.code())
                 .jsonPath("$.content[5].channel.code").isEqualTo(ALANZQ.code())
                 .jsonPath("$.content[7].channel.code").isEqualTo(MEGA_MOGWAI.code());
-
     }
 
     @Test
