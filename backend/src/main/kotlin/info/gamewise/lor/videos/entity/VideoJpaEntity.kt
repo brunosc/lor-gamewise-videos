@@ -9,11 +9,8 @@ import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
 
 @Document(collection = "videos")
-internal class VideoJpaEntity(@Id
-                              var id: String? = null,
-
-                              @Indexed(unique = true)
-                              var videoId: String? = null,
+internal class VideoJpaEntity(@Id var id: String? = null,
+                              @Indexed(unique = true) var videoId: String? = null,
                               var url: String? = null,
                               var title: String? = null,
                               var deckCode: String? = null,

@@ -16,9 +16,12 @@ import java.time.LocalDate
 import java.util.stream.Collectors
 
 object DataLoader {
+    const val DECK_CODE = "CICACAQDAMBQCBJHGU4AGAYFAMCAMBABAMBA6KBXAMAQCAZFAEBAGBABAMCQEAIBAEBS4"
+
     val MEGA_MOGWAI = Channel("MEGA_MOGWAI", "MegaMogwai", "1")
     val ALANZQ = Channel("ALANZQ", "Alanzq", "2")
     val SILVERFUSE = Channel("SILVERFUSE", "Silverfuse", "2")
+
     val EZREAL: Champion = Champion("01PZ036", "EZREAL", "EZREAL")
     val RENEKTON: Champion = Champion("04SH067", "RENEKTON", "RENEKTON")
     val LUCIAN: Champion = Champion("01DE022", "LUCIAN", "LUCIAN")
@@ -37,6 +40,11 @@ object DataLoader {
     val MALPHITE: Champion = Champion("04MT008", "MALPHITE", "MALPHITE")
     val AURELION_SOL: Champion = Champion("03MT087", "AURELION_SOL", "AURELION_SOL")
     val GAREN: Champion = Champion("01DE012", "GAREN", "GAREN")
+    val TEEMO: Champion = Champion("01PZ008", "TEEMO", "TEEMO")
+    val NASUS: Champion = Champion("04SH047", "NASUS", "NASUS")
+    val THRESH: Champion = Champion("01SI052", "THRESH", "THRESH")
+    val NAMI: Champion = Champion("05BW005", "NAMI", "NAMI")
+    val TWISTED_FATE: Champion = Champion("02BW026", "TWISTED_FATE", "TWISTED_FATE")
 
     @JvmStatic
     fun videoDetails(id: String, deckCode: String): VideoDetails {

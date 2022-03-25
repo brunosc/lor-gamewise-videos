@@ -15,14 +15,12 @@ import java.util.*
 import java.util.stream.Collectors
 
 @Component
-internal class VideoMapper(
-    private val getChannelsPort: GetChannelsPort,
-    private val getChampionsPort: GetChampionsPort
-) {
+internal class VideoMapper(private val getChannelsPort: GetChannelsPort,
+                           private val getChampionsPort: GetChampionsPort) {
 
-    fun toDomainPage(page: Page<VideoJpaEntity>, pageable: Pageable?): Page<LoRVideo> {
-        val videos = page.content.map { entity: VideoJpaEntity -> toDomain(entity) }
-        return PageImpl(videos, pageable!!, page.totalElements)
+    fun toDomainPage(page: Page<VideoJpaEntity>, pageable: Pageable): Page<LoRVideo> {
+        val videos = page.content.map { toDomain(it) }
+        return PageImpl(videos, pageable, page.totalElements)
     }
 
     fun toDomain(entity: VideoJpaEntity): LoRVideo {
@@ -32,7 +30,7 @@ internal class VideoMapper(
             deckCode = entity.deckCode!!,
             channel = mapChannel(entity.channel!!)!!,
             champions = mapChampions(entity.champions!!),
-            regions = domainRegions(entity.regions),
+            regions = domainRegions(entity.regions!!),
             publishedAt = entity.publishedAt!!,
             thumbnail = entity.thumbnails!!.high
         )
@@ -45,12 +43,10 @@ internal class VideoMapper(
             .toSet()
     }
 
-    private fun domainRegions(regions: Set<LoRRegion>?): Set<VideoRegion> {
-        val domainRegions = regions!!
-            .stream()
-            .map { region: LoRRegion? -> VideoRegion(region!!) }
-            .collect(Collectors.toUnmodifiableSet())
-        return TreeSet(domainRegions)
+    private fun domainRegions(regions: Set<LoRRegion>): Set<VideoRegion> {
+        return regions
+            .map { VideoRegion(it) }
+            .toSet()
     }
 
     private fun mapChannel(channelCode: String): VideoChannel? {

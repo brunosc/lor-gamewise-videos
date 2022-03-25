@@ -9,7 +9,6 @@ import info.gamewise.lor.videos.port.`in`.GetFiltersUseCase
 import info.gamewise.lor.videos.port.out.GetChampionsPort
 import info.gamewise.lor.videos.port.out.GetChannelsPort
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 internal class GetFiltersService(
@@ -22,17 +21,18 @@ internal class GetFiltersService(
     }
 
     private fun allChampions(): List<VideoChampion> {
-        return getChampionsPort.getChampions()
+        return getChampionsPort
+            .getChampions()
             .map { VideoChampion(it) }
     }
 
     private fun allRegions(): List<VideoRegion> {
-        return EnumSet.allOf(LoRRegion::class.java)
-            .map { VideoRegion(it) }
+        return enumValues<LoRRegion>().map { VideoRegion(it) }
     }
 
     private fun allChannels(): List<VideoChannel> {
-        return getChannelsPort.getChannels()
+        return getChannelsPort
+            .getChannels()
             .map { VideoChannel(it) }
     }
 }

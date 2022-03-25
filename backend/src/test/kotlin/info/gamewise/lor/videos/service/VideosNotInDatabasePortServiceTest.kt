@@ -2,29 +2,32 @@ package info.gamewise.lor.videos.service
 
 import com.github.brunosc.fetcher.domain.VideoDetails
 import info.gamewise.lor.videos.DataLoader
+import info.gamewise.lor.videos.DataLoader.DECK_CODE
 import info.gamewise.lor.videos.DataLoader.videoDetails
 import info.gamewise.lor.videos.domain.json.Channel
 import info.gamewise.lor.videos.port.out.*
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
-import org.mockito.Mockito.mock
+import org.mockito.Mock
+import org.mockito.junit.jupiter.MockitoExtension
 
 private const val ID_NOT_IN_DB_123 = "123"
 private const val ID_IN_DB_456 = "456"
 private const val ID_NOT_IN_DB_789 = "789"
 private val MEGA_MOGWAI = Channel("MEGA_MOGWAI", "MegaMogwai", "1")
 
-internal class VideosNotInDatabasePortServiceTest {
-
-    private val videoIsInDatabaseUseCase: VideoIsInDatabaseUseCase = mock(VideoIsInDatabaseUseCase::class.java)
-    private val latestVideosUseCase: LatestYouTubeVideosUseCase = mock(LatestYouTubeVideosUseCase::class.java)
-    private val getChannelsPort: GetChannelsPort = mock(GetChannelsPort::class.java)
-    private val getChampionsPort: GetChampionsPort = mock(GetChampionsPort::class.java)
+@ExtendWith(MockitoExtension::class)
+internal class VideosNotInDatabasePortServiceTest(@Mock private val videoIsInDatabaseUseCase: VideoIsInDatabaseUseCase,
+                                                  @Mock private val latestVideosUseCase: LatestYouTubeVideosUseCase,
+                                                  @Mock private val getChannelsPort: GetChannelsPort,
+                                                  @Mock private val getChampionsPort: GetChampionsPort,
+                                                  @Mock private val mapper: NewVideoMapperUseCase) {
 
     private val service =
-        VideosNotInDatabasePortService(videoIsInDatabaseUseCase, latestVideosUseCase, getChannelsPort, getChampionsPort)
+        VideosNotInDatabasePortService(videoIsInDatabaseUseCase, latestVideosUseCase, mapper)
 
     @Test
     fun shouldFetchNormally() {
@@ -57,31 +60,35 @@ internal class VideosNotInDatabasePortServiceTest {
     }
 
     private fun givenVideos_ValidDeckCode() {
-        val deckCode = "CICACAQDAMBQCBJHGU4AGAYFAMCAMBABAMBA6KBXAMAQCAZFAEBAGBABAMCQEAIBAEBS4"
-        val latestVideos: List<VideoDetails> = listOf(
-            videoDetails(ID_NOT_IN_DB_123, deckCode),
-            videoDetails(ID_IN_DB_456, deckCode),
-            videoDetails(ID_NOT_IN_DB_789, deckCode)
+        val videoDetails: List<VideoDetails> = listOf(
+            videoDetails(ID_NOT_IN_DB_123, DECK_CODE),
+            videoDetails(ID_IN_DB_456, DECK_CODE),
+            videoDetails(ID_NOT_IN_DB_789, DECK_CODE)
         )
-        given(latestVideosUseCase.latestVideosByChannel(MEGA_MOGWAI))
-            .willReturn(latestVideos)
+        val latestVideos = mapOf(MEGA_MOGWAI to videoDetails)
 
+        given(latestVideosUseCase.latestVideos())
+            .willReturn(latestVideos)
         given(getChannelsPort.getChannels())
             .willReturn(listOf(MEGA_MOGWAI))
+        given(mapper.mapNewVideos(latestVideos.entries.first()))
+            .willReturn(videoDetails.map { NewVideo(DECK_CODE, it, MEGA_MOGWAI, emptySet(), emptySet()) })
     }
 
     private fun givenVideos_InvalidDeckCode() {
-        val deckCode = "CICACAQDAMBQCBJHGU4AGAYFAMCAMBABAMBA6KBXAMAQCAZFAEBAGBABAMCQEAIBAEBS4"
-        val latestVideos: List<VideoDetails> = listOf(
+        val videoDetails: List<VideoDetails> = listOf(
             videoDetails(ID_NOT_IN_DB_123, "invalid-deck-code"),
-            videoDetails(ID_IN_DB_456, deckCode),
-            videoDetails(ID_NOT_IN_DB_789, deckCode)
+            videoDetails(ID_IN_DB_456, DECK_CODE),
+            videoDetails(ID_NOT_IN_DB_789, DECK_CODE)
         )
+        val latestVideos = mapOf(MEGA_MOGWAI to videoDetails)
 
-        given(latestVideosUseCase.latestVideosByChannel(MEGA_MOGWAI))
+        given(latestVideosUseCase.latestVideos())
             .willReturn(latestVideos)
         given(getChannelsPort.getChannels())
             .willReturn(listOf(MEGA_MOGWAI))
+        given(mapper.mapNewVideos(latestVideos.entries.first()))
+            .willReturn(videoDetails.mapNotNull { if (it.id == ID_NOT_IN_DB_123) null else NewVideo(DECK_CODE, it, MEGA_MOGWAI, emptySet(), emptySet()) })
     }
 
     private fun givenVideoIsInDatabase() {

@@ -10,7 +10,6 @@ import info.gamewise.lor.videos.port.out.GetChampionsPort
 import info.gamewise.lor.videos.port.out.GetVideosByChannelPort
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
-import java.util.*
 import java.util.function.Predicate
 
 @Service
@@ -24,13 +23,13 @@ internal class ChannelStatisticsService(
 
         val startedAt: LocalDateTime = videos.minOf { it.publishedAt }
 
-        val championsCount: List<NameCount> = champions()
+        val championsCount = champions()
             .map { NameCount(it.name, countVideosByChampion(videos, it)) }
             .sortedBy { it.name }
             .sortedBy { it.count }
             .reversed()
 
-        val regionsCount: List<NameCount> = regions()
+        val regionsCount = regions()
             .map { NameCount(it.prettyName(), countVideosByRegion(videos, it)) }
             .sortedBy { it.name }
             .sortedBy { it.count }
@@ -40,25 +39,22 @@ internal class ChannelStatisticsService(
     }
 
     private fun countVideosByChampion(videos: List<LoRVideo>, champion: Champion): Int {
-        val predicate: Predicate<LoRVideo> = Predicate<LoRVideo> { video: LoRVideo ->
-            video.champions
-                .stream()
-                .anyMatch { videoChampion -> videoChampion.code == champion.code }
+        val predicate = Predicate<LoRVideo> {
+            it.champions
+                .any { videoChampion -> videoChampion.code == champion.code }
         }
         return countVideos(videos, predicate)
     }
 
     private fun countVideosByRegion(videos: List<LoRVideo>, region: LoRRegion): Int {
-        val predicate: Predicate<LoRVideo> = Predicate<LoRVideo> { video: LoRVideo ->
-            video.regions
-                .stream()
-                .anyMatch { videoRegion -> videoRegion.code == region.code }
+        val predicate = Predicate<LoRVideo> {
+            it.regions
+                .any { videoRegion -> videoRegion.code == region.code }
         }
         return countVideos(videos, predicate)
     }
 
     private fun countVideos(videos: List<LoRVideo>, predicate: Predicate<LoRVideo>): Int {
-//        return videos.stream().filter(predicate).count()
         return videos.count { predicate.test(it) }
     }
 
@@ -67,8 +63,6 @@ internal class ChannelStatisticsService(
     }
 
     private fun regions(): List<LoRRegion> {
-        return EnumSet.allOf(LoRRegion::class.java)
-            .stream()
-            .toList()
+        return enumValues<LoRRegion>().toList()
     }
 }

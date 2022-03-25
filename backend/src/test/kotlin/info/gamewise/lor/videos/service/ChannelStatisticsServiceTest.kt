@@ -11,9 +11,10 @@ import info.gamewise.lor.videos.port.out.GetVideosByChannelPort
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.eq
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
-import org.mockito.Mockito.mock
+import org.mockito.Mock
+import org.mockito.junit.jupiter.MockitoExtension
 import java.time.LocalDate
 
 private val MEGA_MOGWAI = Channel("MEGA_MOGWAI", "MegaMogwai", "1")
@@ -30,11 +31,11 @@ private val ASHE: Champion = Champion("10", "ASHE", "Ashe")
 private val EZREAL: Champion = Champion("11", "EZREAL", "Ezreal")
 private val MALPHITE: Champion = Champion("12", "MALPHITE", "Malphite")
 
-internal class ChannelStatisticsServiceTest {
+@ExtendWith(MockitoExtension::class)
+internal class ChannelStatisticsServiceTest(@Mock val port: GetVideosByChannelPort,
+                                            @Mock val getChampionsPort: GetChampionsPort) {
 
-    private val port: GetVideosByChannelPort = mock(GetVideosByChannelPort::class.java)
-    private val getChampionsPort: GetChampionsPort = mock(GetChampionsPort::class.java)
-    private val cut = ChannelStatisticsService(port, getChampionsPort)
+    private val service = ChannelStatisticsService(port, getChampionsPort)
 
     @Test
     fun shouldCalculateStatisticsByChannel() {
@@ -42,7 +43,7 @@ internal class ChannelStatisticsServiceTest {
         given(port.videosByChannel(channel.code)).willReturn(videos(channel))
         given(getChampionsPort.getChampions()).willReturn(champions())
 
-        val channelStatistics = cut.channelStatistics(channel.code)
+        val channelStatistics = service.channelStatistics(channel.code)
 
         assertEquals(channelStatistics.startedAt, LocalDate.of(2020, 1, 1))
         assertThat(channelStatistics.champions).isNotEmpty

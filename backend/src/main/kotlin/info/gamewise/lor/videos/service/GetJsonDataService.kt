@@ -18,46 +18,50 @@ import java.util.concurrent.atomic.AtomicReference
 @Service
 internal open class GetJsonDataService(private val properties: JsonDataProperties) : GetChannelsPort, GetChampionsPort {
 
+    private val log = LoggerFactory.getLogger(GetJsonDataService::class.java)
+    private val channels = AtomicReference<List<Channel>>(emptyList())
+    private val champions = AtomicReference<List<Champion>>(emptyList())
+
     @Cacheable(LoRCacheConfig.CHAMPIONS)
     override fun getChampions(): List<Champion> {
-        LOG.info("Fetching champions from {}", properties.championsUrl)
+        log.info("Fetching champions from {}", properties.championsUrl)
         val restTemplate = RestTemplate()
         val response: ResponseEntity<List<Champion>> = restTemplate.exchange(
             properties.championsUrl,
             HttpMethod.GET,
             httpEntity(),
             object : ParameterizedTypeReference<List<Champion>>() {})
-        CHAMPIONS.set(response.body)
-        return CHAMPIONS.get()
+        champions.set(response.body)
+        return champions.get()
     }
 
     override fun getChampionByName(champion: String): Champion? {
-        if (CollectionUtils.isEmpty(CHAMPIONS.get())) {
+        if (champions.get().isEmpty()) {
             getChampions()
         }
 
-        return CHAMPIONS.get().firstOrNull { champion == it.code }
+        return champions.get().firstOrNull { champion == it.code }
     }
 
     @Cacheable(LoRCacheConfig.CHANNELS)
     override fun getChannels(): List<Channel> {
-        LOG.info("Fetching channels from {}", properties.channelsUrl)
+        log.info("Fetching channels from {}", properties.channelsUrl)
         val restTemplate = RestTemplate()
         val response: ResponseEntity<List<Channel>> = restTemplate.exchange(
             properties.channelsUrl,
             HttpMethod.GET,
             httpEntity(),
             object : ParameterizedTypeReference<List<Channel>>() {})
-        CHANNELS.set(response.body)
-        return CHANNELS.get()
+        channels.set(response.body)
+        return channels.get()
     }
 
     override fun getChannelByCode(channelCode: String): Channel? {
-        if (CollectionUtils.isEmpty(CHANNELS.get())) {
+        if (channels.get().isEmpty()) {
             getChannels()
         }
 
-        return CHANNELS.get().firstOrNull { channelCode == it.code }
+        return channels.get().firstOrNull { channelCode == it.code }
     }
 
     private fun httpEntity(): HttpEntity<*> {
@@ -67,9 +71,4 @@ internal open class GetJsonDataService(private val properties: JsonDataPropertie
         return HttpEntity<Any>(headers)
     }
 
-    companion object {
-        private val LOG = LoggerFactory.getLogger(GetJsonDataService::class.java)
-        private val CHANNELS = AtomicReference<List<Channel>>()
-        private val CHAMPIONS = AtomicReference<List<Champion>>()
-    }
 }

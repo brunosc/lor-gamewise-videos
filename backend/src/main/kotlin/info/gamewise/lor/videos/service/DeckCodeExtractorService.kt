@@ -4,22 +4,17 @@ import info.gamewise.lor.videos.deckcodeextractor.DeckCodeExtractor
 import info.gamewise.lor.videos.deckcodeextractor.DescriptionWithDeckCodeExtractor
 import info.gamewise.lor.videos.deckcodeextractor.DescriptionWithDeckLinkExtractor
 import info.gamewise.lor.videos.deckcodeextractor.DescriptionWithRegisteredDeckExtractor
+import info.gamewise.lor.videos.port.out.DeckCodeExtractorUseCase
+import org.springframework.stereotype.Service
 
-object DeckCodeExtractorService {
+@Service
+class DeckCodeExtractorService(private val extractors: List<DeckCodeExtractor>): DeckCodeExtractorUseCase {
 
-    private val EXTRACTORS = listOf<DeckCodeExtractor>(
-        DescriptionWithDeckCodeExtractor(),
-        DescriptionWithDeckLinkExtractor(),
-        DescriptionWithRegisteredDeckExtractor()
-    )
-
-    @JvmStatic
-    fun extractDeckCode(videoDescription: String?): String? {
-        for (extractor in EXTRACTORS) {
+    override fun extractDeckCode(videoDescription: String?): String? {
+        for (extractor in extractors) {
             val deckCode: String? = extractor.extract(videoDescription!!)
             if (deckCode != null) {
                 return sanitizeDeckCode(deckCode)
-                //return deckCode.map { obj: String? -> sanitizeDeckCode() }
             }
         }
         return null

@@ -1,18 +1,12 @@
 package info.gamewise.lor.videos.deckcodeextractor
 
-import java.util.stream.Collectors
-import java.util.stream.Stream
-
 abstract class AbstractDeckCodeExtractor {
 
-    protected fun descriptionAsStream(description: String): Stream<String> {
-        // TODO refactor
+    protected fun descriptionAsStream(description: String): List<String> {
         val splitBySpace = listOf(*description.split(" ".toRegex()).toTypedArray())
-        return splitBySpace.stream()
-            .map { text: String -> splitByEnter(text) }
-            .collect(Collectors.toUnmodifiableList())
-            .stream()
-            .flatMap { obj: List<String?> -> obj.stream() }
+        return splitBySpace
+            .map { splitByEnter(it) }
+            .flatten()
     }
 
     private fun splitByEnter(text: String): List<String> {

@@ -2,26 +2,39 @@ package info.gamewise.lor.videos.deckcodeextractor
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import org.springframework.http.*
+import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 import java.io.Serializable
 import java.util.*
+import java.util.Optional.ofNullable
 import java.util.function.Function
 
+private const val URL_MOBA = "https://lor.mobalytics.gg/"
+private const val URL_DECKS = "${URL_MOBA}decks"
+private const val URL_DECK_BY_ID = "${URL_MOBA}api/v2/decks/library/by-id/"
+
+@Component
 class DescriptionWithRegisteredDeckExtractor : AbstractDeckCodeExtractor(), DeckCodeExtractor {
 
     override fun extract(videoDescription: String): String? {
-        return descriptionAsStream(videoDescription)
-            .filter { word: String -> filterMobalyticsLink(word) }
-            .findFirst()
-            .map { url: String -> deckCodeFromRegisteredDeck(url) }
-            .orElse(null)
+        val mobaUrl = descriptionAsStream(videoDescription)
+            .firstOrNull { filterMobalyticsLink(it) }
+        return deckCodeFromRegisteredDeck(mobaUrl)
     }
 
-    private fun deckCodeFromRegisteredDeck(url: String): String? {
+    private fun filterMobalyticsLink(word: String): Boolean {
+        return word.contains(URL_DECKS) && !word.contains("code")
+    }
+
+    private fun deckCodeFromRegisteredDeck(url: String?): String? {
+        if (url == null) {
+            return null
+        }
+
         val deckId = url.substring(url.lastIndexOf("/") + 1)
         val response = requestMobalytics(URL_DECK_BY_ID + deckId)
-        return Optional.ofNullable(response.body)
-            .map { obj: DeckResponse -> obj.exportUID }
+        return ofNullable(response.body)
+            .map { it.exportUID }
             .orElse(null)
     }
 
@@ -37,16 +50,7 @@ class DescriptionWithRegisteredDeckExtractor : AbstractDeckCodeExtractor(), Deck
         return HttpEntity<Any>(headers)
     }
 
-    private fun filterMobalyticsLink(word: String): Boolean {
-        return word.contains(URL_DECKS) && !word.contains("code")
-    }
-
     @JsonIgnoreProperties(ignoreUnknown = true)
-    private class DeckResponse(val exportUID: String? = null) : Serializable
+    private class DeckResponse(var exportUID: String? = null) : Serializable
 
-    companion object {
-        private const val URL_MOBA = "https://lor.mobalytics.gg/"
-        private const val URL_DECKS = URL_MOBA + "decks"
-        private const val URL_DECK_BY_ID = URL_MOBA + "api/v2/decks/library/by-id/"
-    }
 }

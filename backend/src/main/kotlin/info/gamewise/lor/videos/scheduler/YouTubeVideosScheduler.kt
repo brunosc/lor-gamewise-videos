@@ -14,10 +14,8 @@ private const val IMPORT_RATE = HOUR * 60 * 60 * 1000
 
 @Component
 @ConditionalOnProperty(value = ["lor.you-tube.scheduler.enabled"], havingValue = "true")
-class YouTubeVideosScheduler internal constructor(
-    private val videosNotInDatabaseUseCase: VideosNotInDatabasePort,
-    private val saveVideoUseCase: SaveVideoUseCase
-) {
+internal class YouTubeVideosScheduler(private val videosNotInDatabaseUseCase: VideosNotInDatabasePort,
+                                      private val saveVideoUseCase: SaveVideoUseCase) {
 
     @Scheduled(fixedRate = IMPORT_RATE.toLong())
     fun fetch() {

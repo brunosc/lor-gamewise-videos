@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 internal class DescriptionWithDeckLinkExtractorTest {
+
     private val extractor: DeckCodeExtractor = DescriptionWithDeckLinkExtractor()
 
     @Test
