@@ -7,9 +7,6 @@ spring:
 
 lor:
   you-tube:
-    local-server:
-      host: localhost
-      port: 8095
     scheduler:
       enabled: false
   json-data:
