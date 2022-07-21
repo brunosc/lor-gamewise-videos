@@ -1,4 +1,4 @@
-package info.gamewise.lor.videos.entity
+package info.gamewise.lor.videos.entity.video
 
 import com.github.brunosc.lor.domain.LoRRegion
 import info.gamewise.lor.videos.domain.LoRVideo
@@ -11,12 +11,11 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Component
-import java.util.*
-import java.util.stream.Collectors
 
 @Component
 internal class VideoMapper(private val getChannelsPort: GetChannelsPort,
-                           private val getChampionsPort: GetChampionsPort) {
+                           private val getChampionsPort: GetChampionsPort
+) {
 
     fun toDomainPage(page: Page<VideoJpaEntity>, pageable: Pageable): Page<LoRVideo> {
         val videos = page.content.map { toDomain(it) }

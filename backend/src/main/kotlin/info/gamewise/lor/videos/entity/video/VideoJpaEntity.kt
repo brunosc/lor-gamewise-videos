@@ -1,4 +1,4 @@
-package info.gamewise.lor.videos.entity
+package info.gamewise.lor.videos.entity.video
 
 import com.github.brunosc.fetcher.domain.VideoThumbnails
 import com.github.brunosc.lor.domain.LoRRegion

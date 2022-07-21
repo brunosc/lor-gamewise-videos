@@ -1,4 +1,4 @@
-package info.gamewise.lor.videos.entity
+package info.gamewise.lor.videos.entity.video
 
 import info.gamewise.lor.videos.domain.LoRVideo
 import info.gamewise.lor.videos.port.`in`.GetVideosUseCase
@@ -17,7 +17,8 @@ import org.springframework.stereotype.Service
 @Service
 internal class VideoPersistenceAdapter(private val repository: VideoRepository,
                                        private val mapper: VideoMapper,
-                                       private val mongoTemplate: MongoTemplate) :
+                                       private val mongoTemplate: MongoTemplate
+) :
     GetVideosUseCase, VideoIsInDatabaseUseCase, SaveVideoUseCase, GetVideosByChannelPort {
 
     override fun fetchByFilter(params: SearchParams, pageable: Pageable): Page<LoRVideo> {
@@ -30,7 +31,7 @@ internal class VideoPersistenceAdapter(private val repository: VideoRepository,
 
     private fun getVideosCount(videoQuery: Query): VideosCount {
         return VideosCount(
-            videos = mongoTemplate.find(videoQuery,VideoJpaEntity::class.java),
+            videos = mongoTemplate.find(videoQuery, VideoJpaEntity::class.java),
             count = mongoTemplate.count(Query(), VideoJpaEntity::class.java)
         )
     }

@@ -1,4 +1,4 @@
-package info.gamewise.lor.videos.entity
+package info.gamewise.lor.videos.entity.video
 
 import com.github.brunosc.lor.domain.LoRRegion
 import info.gamewise.lor.videos.port.`in`.SearchParams
@@ -9,7 +9,8 @@ import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 
 class VideoQueryBuilder(val params: SearchParams,
-                        val pageable: Pageable) {
+                        val pageable: Pageable
+) {
 
     fun build(): Query {
         val query = initQuery()
