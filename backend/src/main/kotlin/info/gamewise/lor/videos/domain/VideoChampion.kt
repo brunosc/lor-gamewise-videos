@@ -22,6 +22,9 @@ class VideoChampion(champion: Champion) {
     }
 
     private fun buildUrlImgName(champion: Champion): String {
+        if (champion.code == "KAI_SA") {
+            return "Kaisa"
+        }
         return champion
             .name
             .replace(" ", "")
