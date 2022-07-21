@@ -1,6 +1,7 @@
 <template>
   <div>
-    <champion-icon v-for="champion in champions" :key="champion.code" :url-img-name="champion.urlImgName"/>
+    <champion-icon v-for="champion in champions"
+                   :key="champion.code" :url-img="champion.urlImg" :name="champion.name"/>
   </div>
 </template>
 

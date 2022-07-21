@@ -6,13 +6,13 @@
             class="style-chooser"
             placeholder="Filter by champion"
             @input="onSelectChange">
-    <template #selected-option="{ name, urlImgName }">
-      <champion-icon :url-img-name="urlImgName"/>
+    <template #selected-option="{ name, urlImg }">
+      <champion-icon :url-img="urlImg" :name="name"/>
       <span> {{ name }} </span>
     </template>
 
     <template v-slot:option="option">
-      <champion-icon :url-img-name="option.urlImgName"/>
+      <champion-icon :url-img="option.urlImg" :name="option.name"/>
       <span class="text-white">{{ option.name }}</span>
     </template>
   </v-select>
@@ -49,6 +49,7 @@ export default {
     }),
 
     champions() {
+      console.log(this.filter.champions)
       return this.filter.champions ? this.filter.champions : [];
     },
 

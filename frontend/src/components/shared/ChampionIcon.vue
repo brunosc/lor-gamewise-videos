@@ -1,26 +1,24 @@
 <template>
   <img class="rounded-circle mx-1"
-       :src="championImgUrl()"
+       :src="urlImg"
        width="24" height="24"
-       :title="urlImgName"
-       :alt="urlImgName">
+       :title="name"
+       :alt="name">
 </template>
 
 <script>
 export default {
   name: 'ChampionIcon',
   props: {
-    urlImgName: {
+    urlImg: {
       type: String,
       required: true,
-    }
+    },
+    name: {
+      type: String,
+      required: true,
+    },
   },
-
-  methods: {
-    championImgUrl() {
-      return `https://cdn-lor.mobalytics.gg/production/images/champions/${this.urlImgName}.webp`;
-    }
-  }
 }
 </script>
 
