@@ -3,6 +3,9 @@ package info.gamewise.lor.videos.domain
 import info.gamewise.lor.videos.domain.json.Champion
 
 class VideoChampion(champion: Champion) {
+
+    private val championsWithIdAsUrl = arrayOf("GWEN", "NORRA")
+
     val code: String
     val name: String
     val urlImg: String
@@ -22,7 +25,7 @@ class VideoChampion(champion: Champion) {
     }
 
     private fun buildUrlImgName(champion: Champion): String {
-        if (champion.code == "GWEN") {
+        if (championsWithIdAsUrl.contains(champion.code)) {
             return "https://cdn-lor.mobalytics.gg/production/images/round-cards/${champion.id}.png"
         }
 
